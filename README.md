@@ -27,6 +27,7 @@ mosslab/
   followup.py      re-reads finished tasks later and diffs their cost
   verify.py        pre-push check: no credentials in tracked files
   probes/
+    surface.py     what the gateway exposes without credentials
     contract.py    what the gateway accepts and how it refuses
     idempotency.py replay semantics, including the concurrent case
     lifecycle.py   status transitions, cancellation, the trace route
@@ -40,6 +41,8 @@ evidence/
     wire.jsonl     every exchange, credentials scrubbed at write time
     results.json   checks, expectations, observations, request ids
     summary.md     the same, rendered
+findings/
+  F01..          one file per confirmed finding: expected, observed, impact, fix
 ```
 
 ## Running it
@@ -58,6 +61,7 @@ Suites are independent and can be run one at a time:
 
 | suite | what it costs | what it answers |
 |---|---|---|
+| `surface` | nothing | what answers without credentials; whether the model list matches the task models |
 | `contract` | usually nothing | validation boundaries, error shape, whether a list route exists |
 | `idempotency` | ~6 tasks | what "same body" means; what a concurrent replay does |
 | `lifecycle` | ~4 tasks | transitions, cancellation at each state, the trace route |
