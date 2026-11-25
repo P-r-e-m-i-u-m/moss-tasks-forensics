@@ -16,9 +16,20 @@ class Probe:
     fn: Callable[[Moss, object], ProbeResult]
 
 
-from . import contract, failures, files, idempotency, lifecycle, money, schema, sdk  # noqa: E402
+from . import (  # noqa: E402
+    contract,
+    failures,
+    files,
+    idempotency,
+    lifecycle,
+    money,
+    schema,
+    sdk,
+    surface,
+)
 
 SUITES: dict[str, list[Probe]] = {
+    "surface": [Probe("P", "Unauthenticated surface", surface.run)],
     "contract": [Probe("C", "Request validation and error shape", contract.run)],
     "idempotency": [Probe("I", "Idempotency-Key semantics", idempotency.run)],
     "lifecycle": [Probe("L", "Task state machine and cancellation", lifecycle.run)],

@@ -19,7 +19,8 @@ EVIDENCE = ROOT / "evidence"
 def load_env(path: Path = ROOT / ".env") -> None:
     if not path.exists():
         return
-    for raw in path.read_text(encoding="utf-8").splitlines():
+    # utf-8-sig: PowerShell writes a BOM, which would corrupt the first key name.
+    for raw in path.read_text(encoding="utf-8-sig").splitlines():
         line = raw.strip()
         if not line or line.startswith("#") or "=" not in line:
             continue

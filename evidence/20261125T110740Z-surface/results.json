@@ -1,0 +1,29 @@
+{
+  "run": "20261125T110740Z-surface",
+  "started_utc": "20261125T110740Z",
+  "finished_utc": "20261125T110741Z",
+  "gateway": "https://inference.moss.dev/v1",
+  "budget": {
+    "spent_usd": 0.0,
+    "tasks_created": 0,
+    "ceiling_usd": 3.0,
+    "task_ceiling": 40
+  },
+  "results": [
+    {
+      "id": "P",
+      "suite": "surface",
+      "title": "Unauthenticated surface",
+      "skipped": "crashed: AttributeError(\"'Response' object has no attribute 'status'\")",
+      "checks": [],
+      "notes": [],
+      "task_ids": []
+    }
+  ],
+  "errors": [
+    {
+      "probe": "P",
+      "error": "AttributeError(\"'Response' object has no attribute 'status'\")"
+    }
+  ]
+}
