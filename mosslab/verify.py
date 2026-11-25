@@ -21,6 +21,10 @@ SUSPECT = [
     (re.compile(r"\bproj_[A-Za-z0-9]{8,}"), "project id"),
 ]
 
+# Values that are obviously fixtures, not credentials. The redaction test has to
+# put something in the header to prove it gets scrubbed.
+PLACEHOLDER = re.compile(r"test|fake|example|dummy|your_|xxx|placeholder", re.IGNORECASE)
+
 
 def tracked() -> list[Path]:
     try:
@@ -63,6 +67,8 @@ def main() -> int:
                 problems.append(f"{relative}: contains a live credential")
         for pattern, label in SUSPECT:
             for match in pattern.finditer(text):
+                if PLACEHOLDER.search(match.group(0)):
+                    continue
                 problems.append(f"{relative}: {label} -> {match.group(0)[:12]}...")
 
     if (ROOT / ".env").exists() and (ROOT / ".env") in files:

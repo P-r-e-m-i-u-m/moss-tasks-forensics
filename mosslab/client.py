@@ -181,12 +181,14 @@ class Moss:
         body: dict[str, Any] | None = None,
         headers: dict[str, str] | None = None,
         accept: str = "application/json",
+        auth: bool = True,
     ) -> Resp:
         sent = {"Accept": accept}
         if body is not None:
             sent["Content-Type"] = "application/json"
         sent.update(headers or {})
-        sent["Authorization"] = f"Bearer {self.project_id}:{self.project_key}"
+        if auth:
+            sent["Authorization"] = f"Bearer {self.project_id}:{self.project_key}"
 
         started = time.perf_counter()
         try:
@@ -206,6 +208,7 @@ class Moss:
                 text=text,
                 content=reply.content,
             )
+            final_url = str(reply.url)
         except httpx.HTTPError as error:
             elapsed_ms = (time.perf_counter() - started) * 1000
             result = Resp(
@@ -216,11 +219,12 @@ class Moss:
                 elapsed_ms=round(elapsed_ms, 1),
                 text="",
             )
+            final_url = path if path.startswith("http") else self.base + path
 
         self._record(
             probe=probe,
             method=method,
-            path=path,
+            url=final_url,
             body=body,
             headers=sent,
             result=result,
@@ -232,7 +236,7 @@ class Moss:
         *,
         probe: str,
         method: str,
-        path: str,
+        url: str,
         body: dict[str, Any] | None,
         headers: dict[str, str],
         result: Resp,
@@ -245,7 +249,7 @@ class Moss:
                 "probe": probe,
                 "request": {
                     "method": method,
-                    "url": self.base + path,
+                    "url": url,
                     "headers": {k: v for k, v in headers.items() if k.lower() != "authorization"},
                     "body": body,
                 },

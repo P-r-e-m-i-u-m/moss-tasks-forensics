@@ -1,9 +1,9 @@
-# F01 — `/health` is public and reports the deployment's internals
+﻿# F01 — `/health` is public and reports the deployment's internals
 
 **Severity:** S2 — information disclosure, no credentials required
 **Status:** confirmed, reproduced twice
 **Route:** `GET https://inference.moss.dev/health` (note: outside `/v1`)
-**Request id:** `06137842caf14097be28840eca3ef9ed`
+**Request id:** `4ac255cc446542fca98307e4a127ff3d`
 
 ## Expected
 
@@ -62,5 +62,5 @@ returns a fixed body.
 
 ## Evidence
 
-`evidence/20261125T110759Z-surface/wire.jsonl`, probe `P`, the `GET /health` exchange.
-`evidence/20261125T110759Z-surface/results.json`, check `health_requires_auth`.
+`evidence/20261125T111443Z-surface/wire.jsonl`, probe `P`, the `GET /health` exchange.
+`evidence/20261125T111443Z-surface/results.json`, check `health_requires_auth`.

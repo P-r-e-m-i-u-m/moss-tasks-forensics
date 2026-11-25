@@ -1,9 +1,9 @@
-# F02 — `/v1/models` is public, and none of its models can run a task
+﻿# F02 — `/v1/models` is public, and none of its models can run a task
 
 **Severity:** S3 — wrong answer to a question every client asks at startup
 **Status:** confirmed
 **Route:** `GET https://inference.moss.dev/v1/models`
-**Request id:** `dc1768c729d54b24b06b7833e3e5c10e`
+**Request id:** `e144aebe9ea84644bc3fc987cc0dcb95`
 
 ## Expected
 
@@ -49,6 +49,6 @@ of the same problem as F01.
 
 ## Evidence
 
-`evidence/20261125T110759Z-surface/wire.jsonl`, probe `P`, the `GET /v1/models` exchange.
-`evidence/20261125T110759Z-surface/results.json`, checks `models_requires_auth` and
+`evidence/20261125T111443Z-surface/wire.jsonl`, probe `P`, the `GET /v1/models` exchange.
+`evidence/20261125T111443Z-surface/results.json`, checks `models_requires_auth` and
 `models_lists_task_models`.

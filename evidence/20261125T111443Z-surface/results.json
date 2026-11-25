@@ -1,7 +1,7 @@
 {
-  "run": "20261125T110759Z-surface",
-  "started_utc": "20261125T110759Z",
-  "finished_utc": "20261125T110800Z",
+  "run": "20261125T111443Z-surface",
+  "started_utc": "20261125T111443Z",
+  "finished_utc": "20261125T111444Z",
   "gateway": "https://inference.moss.dev/v1",
   "budget": {
     "spent_usd": 0.0,
@@ -23,7 +23,8 @@
           "passed": false,
           "evidence": {
             "status": 200,
-            "request_id": "dc1768c729d54b24b06b7833e3e5c10e"
+            "request_id": "e144aebe9ea84644bc3fc987cc0dcb95",
+            "count": 19
           }
         },
         {
@@ -45,7 +46,8 @@
               "openai/gpt-6.1-sol",
               "openai/gpt-6-astra",
               "anthropic/claude-haiku-5.5"
-            ]
+            ],
+            "request_id": "e144aebe9ea84644bc3fc987cc0dcb95"
           }
         },
         {
@@ -55,44 +57,34 @@
           "passed": false,
           "evidence": {
             "status": 200,
-            "body": {
-              "status": "ok",
-              "revision": "e31376961340ebb5687775ae4a984f8424c444a0",
-              "projects": 1,
-              "indexes": 0,
-              "models": 0,
-              "decide": 0,
-              "decide_projects": 0,
-              "traces": {
-                "queued": 0,
-                "sent_spans": 2984,
-                "dropped_spans": 0,
-                "failed_spans": 0,
-                "content_traces": 1493,
-                "dropped_content": 0,
-                "too_large_content": 0,
-                "opted_out_content": 0,
-                "unavailable_content": 0
-              }
-            },
-            "request_id": "06137842caf14097be28840eca3ef9ed"
+            "fields": [
+              "decide",
+              "decide_projects",
+              "indexes",
+              "models",
+              "projects",
+              "revision",
+              "traces"
+            ],
+            "revision": "e31376961340ebb5687775ae4a984f8424c444a0",
+            "request_id": "4ac255cc446542fca98307e4a127ff3d"
           }
         },
         {
           "name": "error_request_id_matches_header",
           "expected": "body.request_id == X-Moss-Request-Id",
-          "observed": "body='6d1552f4857c414ab0b2aa16c2fc07b0' header='6d1552f4857c414ab0b2aa16c2fc07b0'",
+          "observed": "body='9f3a461f10a54498b2558b7410f83abb' header='9f3a461f10a54498b2558b7410f83abb'",
           "passed": true,
           "evidence": {
             "status": 401,
-            "body_request_id": "6d1552f4857c414ab0b2aa16c2fc07b0",
-            "header_request_id": "6d1552f4857c414ab0b2aa16c2fc07b0"
+            "body_request_id": "9f3a461f10a54498b2558b7410f83abb",
+            "header_request_id": "9f3a461f10a54498b2558b7410f83abb"
           }
         }
       ],
       "notes": [
         "A caller who discovers models the OpenAI way (`GET /v1/models`) finds 19 ids and none of the three that `POST /v1/tasks` accepts. The task models are documented separately and never appear here.",
-        "`/health` is outside `/v1`, needs no credentials, and returns 7 fields including the deployed revision and span counters. That is a free inventory of the deployment for anyone who guesses the path."
+        "`/health` needs no credentials and returns 7 fields including the deployed revision and live span counters. That is a free inventory of the deployment for anyone who guesses the path."
       ],
       "task_ids": []
     }
