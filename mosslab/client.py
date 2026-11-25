@@ -125,6 +125,7 @@ class Moss:
         max_usd: float = 3.0,
         max_tasks: int = 40,
         timeout: float = 120.0,
+        transport: httpx.BaseTransport | None = None,
     ) -> None:
         self.project_id = _env("MOSS_PROJECT_ID")
         self.project_key = _env("MOSS_PROJECT_KEY")
@@ -147,6 +148,7 @@ class Moss:
             timeout=httpx.Timeout(timeout, connect=10.0),
             follow_redirects=False,
             limits=httpx.Limits(max_connections=20, max_keepalive_connections=10),
+            transport=transport,
         )
 
     # -- lifecycle ---------------------------------------------------------
