@@ -3,8 +3,8 @@
 I spent $0.085 and ran 20 browser tasks to find out how far Moss's documented contract
 holds. The primitives are good. The edges are where it drifts.
 
-Code, logs and screenshots are in this repo, and every confirmed finding carries an
-`X-Moss-Request-Id` Moss can look up on their side.
+Code, logs and screenshots are in this repo. Live findings carry an `X-Moss-Request-Id` Moss
+can look up; the two source-only ones cite file and line.
 
 ## Portal
 
@@ -78,4 +78,4 @@ minutes after the runs; the docs say a few hours, so settlement is unverified.
 **Not tested:** the logged-in Portal, 7-day file expiry, the 20-queued-task ceiling,
 bring-your-own-key, and retrieval quality with a real index.
 
-Every confirmed finding has an `X-Moss-Request-Id`. Moss can look up the exact exchange.
+Every live finding has an `X-Moss-Request-Id`; Moss can look up the exact exchange.

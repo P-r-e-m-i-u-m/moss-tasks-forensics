@@ -52,8 +52,8 @@ model_usd:        0.021088
 budget_exceeded:  never emitted
 ```
 
-Each finding has expected, observed, impact and a repro, plus the `X-Moss-Request-Id` Moss
-can look up.
+Each finding has expected, observed, impact and repro; live ones carry the
+`X-Moss-Request-Id` Moss can look up.
 
 ## Why raw HTTP
 
