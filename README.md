@@ -93,7 +93,7 @@ REVIEW.md          the one-page review this repo supports
 python -m venv .venv
 .venv/Scripts/activate        # or: source .venv/bin/activate
 pip install -r requirements.txt
-pip install moss              # only needed for suite D
+pip install moss              # only needed for suite sdk
 
 cp .env.example .env          # fill in MOSS_PROJECT_ID and MOSS_PROJECT_KEY
 python -m mosslab.run --suites contract --label contract
