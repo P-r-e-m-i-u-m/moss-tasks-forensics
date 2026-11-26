@@ -1,0 +1,85 @@
+{
+  "at": "20261125T113709Z",
+  "tasks": {
+    "task_06eaf6816add4da49f8067075e9b7e7a": {
+      "cost_usd": 0.021088,
+      "model_usd": 0.021088,
+      "browser_usd": 0.0006666666666666666,
+      "traffic_usd": null,
+      "total_usd": 0.021755,
+      "status": "completed"
+    },
+    "task_10a6cb484c3a4b118e861d43b3accdbc": {
+      "cost_usd": 0.003755,
+      "model_usd": 0.003755,
+      "browser_usd": 0.0003333333333333333,
+      "traffic_usd": null,
+      "total_usd": 0.004088,
+      "status": "completed"
+    },
+    "task_17276736a27e43aab4490d462feeab40": {
+      "cost_usd": 0.004186,
+      "model_usd": 0.004186,
+      "browser_usd": 0.0003333333333333333,
+      "traffic_usd": null,
+      "total_usd": 0.004519,
+      "status": "completed"
+    },
+    "task_29bf2dff03e04c49a867973835b79009": {
+      "cost_usd": 0.004205,
+      "model_usd": 0.004205,
+      "browser_usd": 0.0003333333333333333,
+      "traffic_usd": null,
+      "total_usd": 0.004538,
+      "status": "completed"
+    },
+    "task_29dfe1d4eef24caf9267dc79b55ec323": {
+      "cost_usd": 0.009841,
+      "model_usd": 0.009841,
+      "browser_usd": 0.0003333333333333333,
+      "traffic_usd": null,
+      "total_usd": 0.010174,
+      "status": "completed"
+    },
+    "task_2d8458a85f52427ba3bf5d2eeadb370b": {
+      "cost_usd": 0.008918,
+      "model_usd": 0.008918,
+      "browser_usd": 0.0003333333333333333,
+      "traffic_usd": null,
+      "total_usd": 0.009251,
+      "status": "completed"
+    },
+    "task_5c69da2a9766490ea8e6a9e1c9d1ac9f": {
+      "cost_usd": 0.006233,
+      "model_usd": 0.006233,
+      "browser_usd": 0.0003333333333333333,
+      "traffic_usd": null,
+      "total_usd": 0.006566,
+      "status": "completed"
+    },
+    "task_a43d4fdbe5ec4dddb89664c04cc875af": {
+      "cost_usd": 0.012182,
+      "model_usd": 0.012182,
+      "browser_usd": 0.0003333333333333333,
+      "traffic_usd": null,
+      "total_usd": 0.012515,
+      "status": "failed"
+    },
+    "task_ae0ee2f66ccb403394e3cff17c2c425a": {
+      "cost_usd": 0.005945,
+      "model_usd": 0.005945,
+      "browser_usd": 0.0003333333333333333,
+      "traffic_usd": null,
+      "total_usd": 0.006278,
+      "status": "completed"
+    },
+    "task_cf17fc31c9684822ace8141d270b0906": {
+      "cost_usd": 0.00361,
+      "model_usd": 0.00361,
+      "browser_usd": 0.0003333333333333333,
+      "traffic_usd": null,
+      "total_usd": 0.003943,
+      "status": "completed"
+    }
+  }
+}

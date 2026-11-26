@@ -1,0 +1,825 @@
+{
+  "run": "20261125T112920Z-deep",
+  "started_utc": "20261125T112920Z",
+  "finished_utc": "20261125T113604Z",
+  "gateway": "https://inference.moss.dev/v1",
+  "budget": {
+    "spent_usd": 0.079684,
+    "tasks_created": 9,
+    "ceiling_usd": 2.0,
+    "task_ceiling": 40
+  },
+  "results": [
+    {
+      "id": "M",
+      "suite": "money",
+      "title": "Cost accounting and budget failure",
+      "skipped": null,
+      "checks": [
+        {
+          "name": "cost_block_present",
+          "expected": "usage.cost with model/browser/traffic/total",
+          "observed": "keys=['browser_usd', 'model_usd', 'total_usd', 'traffic_usd']",
+          "passed": true,
+          "evidence": {
+            "usage": {
+              "cost": {
+                "model_usd": 0.003755,
+                "total_usd": 0.004088,
+                "browser_usd": 0.0003333333333333333,
+                "traffic_usd": null
+              },
+              "steps": 2,
+              "cost_usd": 0.003755,
+              "model_calls": 3,
+              "input_tokens": 11259,
+              "output_tokens": 551,
+              "browser_minutes": 0.21,
+              "browser_seconds": 12,
+              "browser_traffic_mb": null,
+              "cached_input_tokens": 4010
+            }
+          }
+        },
+        {
+          "name": "two_totals_agree",
+          "expected": "usage.cost_usd == usage.cost.total_usd",
+          "observed": "cost_usd=0.003755 total_usd=0.004088",
+          "passed": false,
+          "evidence": {
+            "usage": {
+              "cost": {
+                "model_usd": 0.003755,
+                "total_usd": 0.004088,
+                "browser_usd": 0.0003333333333333333,
+                "traffic_usd": null
+              },
+              "steps": 2,
+              "cost_usd": 0.003755,
+              "model_calls": 3,
+              "input_tokens": 11259,
+              "output_tokens": 551,
+              "browser_minutes": 0.21,
+              "browser_seconds": 12,
+              "browser_traffic_mb": null,
+              "cached_input_tokens": 4010
+            }
+          }
+        },
+        {
+          "name": "traffic_settled_at_completion",
+          "expected": "traffic_usd is a number when the task is finished",
+          "observed": "traffic_usd=None",
+          "passed": false,
+          "evidence": {
+            "usage": {
+              "cost": {
+                "model_usd": 0.003755,
+                "total_usd": 0.004088,
+                "browser_usd": 0.0003333333333333333,
+                "traffic_usd": null
+              },
+              "steps": 2,
+              "cost_usd": 0.003755,
+              "model_calls": 3,
+              "input_tokens": 11259,
+              "output_tokens": 551,
+              "browser_minutes": 0.21,
+              "browser_seconds": 12,
+              "browser_traffic_mb": null,
+              "cached_input_tokens": 4010
+            }
+          }
+        },
+        {
+          "name": "browser_rounds_up_per_minute",
+          "expected": "ceil(12s/60) * $0.02/h",
+          "observed": "expected=0.000333333 billed=0.000333333",
+          "passed": true,
+          "evidence": {
+            "seconds": 12,
+            "billed": 0.0003333333333333333
+          }
+        },
+        {
+          "name": "files_expire_in_seven_days",
+          "expected": "7 days after finish",
+          "observed": "7.000 days",
+          "passed": true,
+          "evidence": {
+            "finished": "2026-11-25T11:29:32.720389+00:00",
+            "expires": "2026-12-02T11:29:32.720389+00:00"
+          }
+        },
+        {
+          "name": "budget_exceeded_reported",
+          "expected": "failed with error.code budget_exceeded",
+          "observed": "completed None",
+          "passed": false,
+          "evidence": {
+            "id": "task_06eaf6816add4da49f8067075e9b7e7a",
+            "status": "completed",
+            "model": "moss-fast",
+            "effort": "medium",
+            "verification": {
+              "method": "agent_reported",
+              "passed": null
+            },
+            "error": null,
+            "cancel_requested": false,
+            "trace_available": true,
+            "live_url": null,
+            "files_expire_at": "2026-12-02T11:31:24.778060+00:00",
+            "created_at": "2026-11-25T11:29:35.001968+00:00",
+            "started_at": "2026-11-25T11:29:35.016855+00:00",
+            "finished_at": "2026-11-25T11:31:24.778060+00:00",
+            "usage": {
+              "cost": {
+                "model_usd": 0.021088,
+                "total_usd": 0.021755,
+                "browser_usd": 0.0006666666666666666,
+                "traffic_usd": null
+              },
+              "steps": 11,
+              "cost_usd": 0.021088,
+              "model_calls": 15,
+              "input_tokens": 199288,
+              "output_tokens": 10465,
+              "browser_minutes": 1.81,
+              "browser_seconds": 109,
+              "browser_traffic_mb": null,
+              "cached_input_tokens": 158403
+            },
+            "result": {
+              "output": null,
+              "output_text": "The twenty article figures are saved in [outputs/country_population_infoboxes.csv](outputs/country_population_infoboxes.csv). The ten largest by those recorded figures are:\n\n| Rank | Country | Population | Reported | Source |\n|---:|---|---:|---|---|\n| 1 | India | 1.48 billion | 2026 estimate | [Article](https://en.wikipedia.org/wiki/India) |\n| 2 | China | 1,404,890,000 | 2025 estimate | [Article](https://en.wikipedia.org/wiki/China) |\n| 3 | United States | 341,784,857 | 2025 estimate | [Article](https://en.wikipedia.org/wiki/United_States) |\n| 4 | Indonesia | 290,125,073 | 2026 estimate | [Article](https://en.wikipedia.org/wiki/Indonesia) |\n| 5 | Nigeria | 242,747,130 | 2026 estimate | [Article](https://en.wikipedia.org/wiki/Nigeria) |\n| 6 | Pakistan | 241,499,431 | 2023 census | [Article](https://en.wikipedia.org/wiki/Pakistan) |\n| 7 | Brazil | 214,211,951 | 2026 estimate | [Article](https://en.wikipedia.org/wiki/Brazil) |\n| 8 | Bangladesh | 179.3 million | 2026 estimate | [Article](https://en.wikipedia.org/wiki/Bangladesh) |\n| 9 | Russia | 146,028,325 | 2025 estimate | [Article](https://en.wikipedia.org/wiki/Russia) |\n| 10 | Ethiopia | 138,902,185 | 2025 estimate | [Article](https://en.wikipedia.org/wiki/Ethiopia) |\n\nThese figures come from article infoboxes, not a single common reference year, so the ordering can differ from the UN table. India’s figure is rounded; Russia’s listed estimate includes Crimea."
+            }
+          }
+        },
+        {
+          "name": "budget_respected",
+          "expected": "model spend at or below the cap",
+          "observed": "total=$0.0218 cap=$0.02 (browser billed separately)",
+          "passed": true,
+          "evidence": {
+            "id": "task_06eaf6816add4da49f8067075e9b7e7a",
+            "status": "completed",
+            "model": "moss-fast",
+            "effort": "medium",
+            "verification": {
+              "method": "agent_reported",
+              "passed": null
+            },
+            "error": null,
+            "cancel_requested": false,
+            "trace_available": true,
+            "live_url": null,
+            "files_expire_at": "2026-12-02T11:31:24.778060+00:00",
+            "created_at": "2026-11-25T11:29:35.001968+00:00",
+            "started_at": "2026-11-25T11:29:35.016855+00:00",
+            "finished_at": "2026-11-25T11:31:24.778060+00:00",
+            "usage": {
+              "cost": {
+                "model_usd": 0.021088,
+                "total_usd": 0.021755,
+                "browser_usd": 0.0006666666666666666,
+                "traffic_usd": null
+              },
+              "steps": 11,
+              "cost_usd": 0.021088,
+              "model_calls": 15,
+              "input_tokens": 199288,
+              "output_tokens": 10465,
+              "browser_minutes": 1.81,
+              "browser_seconds": 109,
+              "browser_traffic_mb": null,
+              "cached_input_tokens": 158403
+            },
+            "result": {
+              "output": null,
+              "output_text": "The twenty article figures are saved in [outputs/country_population_infoboxes.csv](outputs/country_population_infoboxes.csv). The ten largest by those recorded figures are:\n\n| Rank | Country | Population | Reported | Source |\n|---:|---|---:|---|---|\n| 1 | India | 1.48 billion | 2026 estimate | [Article](https://en.wikipedia.org/wiki/India) |\n| 2 | China | 1,404,890,000 | 2025 estimate | [Article](https://en.wikipedia.org/wiki/China) |\n| 3 | United States | 341,784,857 | 2025 estimate | [Article](https://en.wikipedia.org/wiki/United_States) |\n| 4 | Indonesia | 290,125,073 | 2026 estimate | [Article](https://en.wikipedia.org/wiki/Indonesia) |\n| 5 | Nigeria | 242,747,130 | 2026 estimate | [Article](https://en.wikipedia.org/wiki/Nigeria) |\n| 6 | Pakistan | 241,499,431 | 2023 census | [Article](https://en.wikipedia.org/wiki/Pakistan) |\n| 7 | Brazil | 214,211,951 | 2026 estimate | [Article](https://en.wikipedia.org/wiki/Brazil) |\n| 8 | Bangladesh | 179.3 million | 2026 estimate | [Article](https://en.wikipedia.org/wiki/Bangladesh) |\n| 9 | Russia | 146,028,325 | 2025 estimate | [Article](https://en.wikipedia.org/wiki/Russia) |\n| 10 | Ethiopia | 138,902,185 | 2025 estimate | [Article](https://en.wikipedia.org/wiki/Ethiopia) |\n\nThese figures come from article infoboxes, not a single common reference year, so the ordering can differ from the UN table. India’s figure is rounded; Russia’s listed estimate includes Crimea."
+            }
+          }
+        },
+        {
+          "name": "time_limit_reported",
+          "expected": "failed with error.code time_limit",
+          "observed": "failed time_limit",
+          "passed": true,
+          "evidence": {
+            "id": "task_a43d4fdbe5ec4dddb89664c04cc875af",
+            "status": "failed",
+            "model": "moss-fast",
+            "effort": "medium",
+            "verification": null,
+            "error": {
+              "code": "time_limit",
+              "message": "Stopped after 60 s"
+            },
+            "cancel_requested": false,
+            "trace_available": true,
+            "live_url": null,
+            "files_expire_at": "2026-12-02T11:32:29.231595+00:00",
+            "created_at": "2026-11-25T11:31:27.507637+00:00",
+            "started_at": "2026-11-25T11:31:27.521630+00:00",
+            "finished_at": "2026-11-25T11:32:29.231595+00:00",
+            "usage": {
+              "cost": {
+                "model_usd": 0.012182,
+                "total_usd": 0.012515,
+                "browser_usd": 0.0003333333333333333,
+                "traffic_usd": null
+              },
+              "steps": 9,
+              "cost_usd": 0.012182,
+              "model_calls": 15,
+              "input_tokens": 93834,
+              "output_tokens": 4274,
+              "browser_minutes": 1.01,
+              "browser_seconds": 61,
+              "browser_traffic_mb": null,
+              "cached_input_tokens": 74550
+            },
+            "result": null
+          }
+        },
+        {
+          "name": "time_limit_bills_work_done",
+          "expected": "usage still accounts for the spend",
+          "observed": "total=$0.0125 calls=15",
+          "passed": true,
+          "evidence": {
+            "id": "task_a43d4fdbe5ec4dddb89664c04cc875af",
+            "status": "failed",
+            "model": "moss-fast",
+            "effort": "medium",
+            "verification": null,
+            "error": {
+              "code": "time_limit",
+              "message": "Stopped after 60 s"
+            },
+            "cancel_requested": false,
+            "trace_available": true,
+            "live_url": null,
+            "files_expire_at": "2026-12-02T11:32:29.231595+00:00",
+            "created_at": "2026-11-25T11:31:27.507637+00:00",
+            "started_at": "2026-11-25T11:31:27.521630+00:00",
+            "finished_at": "2026-11-25T11:32:29.231595+00:00",
+            "usage": {
+              "cost": {
+                "model_usd": 0.012182,
+                "total_usd": 0.012515,
+                "browser_usd": 0.0003333333333333333,
+                "traffic_usd": null
+              },
+              "steps": 9,
+              "cost_usd": 0.012182,
+              "model_calls": 15,
+              "input_tokens": 93834,
+              "output_tokens": 4274,
+              "browser_minutes": 1.01,
+              "browser_seconds": 61,
+              "browser_traffic_mb": null,
+              "cached_input_tokens": 74550
+            },
+            "result": null
+          }
+        }
+      ],
+      "notes": [
+        "M1: a cost part is null, so the sum cannot be checked: [0.003755, 0.0003333333333333333, None]",
+        "traffic_usd is null at completion, so total_usd is not the final bill. Re-polling later is the only way to learn the real cost."
+      ],
+      "task_ids": [
+        "task_10a6cb484c3a4b118e861d43b3accdbc",
+        "task_06eaf6816add4da49f8067075e9b7e7a",
+        "task_a43d4fdbe5ec4dddb89664c04cc875af"
+      ]
+    },
+    {
+      "id": "V",
+      "suite": "schema",
+      "title": "output_schema and verification",
+      "skipped": null,
+      "checks": [
+        {
+          "name": "satisfiable_completes",
+          "expected": "completed",
+          "observed": "completed",
+          "passed": true,
+          "evidence": {
+            "id": "task_5c69da2a9766490ea8e6a9e1c9d1ac9f",
+            "status": "completed",
+            "model": "moss-fast",
+            "effort": "medium",
+            "verification": {
+              "method": "output_schema",
+              "passed": true
+            },
+            "error": null,
+            "cancel_requested": false,
+            "trace_available": true,
+            "live_url": null,
+            "files_expire_at": "2026-12-02T11:32:59.968886+00:00",
+            "created_at": "2026-11-25T11:32:31.823773+00:00",
+            "started_at": "2026-11-25T11:32:31.840670+00:00",
+            "finished_at": "2026-11-25T11:32:59.968886+00:00",
+            "usage": {
+              "cost": {
+                "model_usd": 0.006233,
+                "total_usd": 0.006566,
+                "browser_usd": 0.0003333333333333333,
+                "traffic_usd": null
+              },
+              "steps": 3,
+              "cost_usd": 0.006233,
+              "model_calls": 8,
+              "input_tokens": 39444,
+              "output_tokens": 1622,
+              "browser_minutes": 0.46,
+              "browser_seconds": 28,
+              "browser_traffic_mb": null,
+              "cached_input_tokens": 25259
+            },
+            "result": {
+              "output": {
+                "title": "Example Domain"
+              },
+              "output_text": "{\"title\":\"Example Domain\"}"
+            }
+          }
+        },
+        {
+          "name": "satisfiable_passes",
+          "expected": "verification.passed true",
+          "observed": "passed=True method=output_schema",
+          "passed": true,
+          "evidence": {
+            "verification": {
+              "method": "output_schema",
+              "passed": true
+            }
+          }
+        },
+        {
+          "name": "satisfiable_output_object",
+          "expected": "result.output has the schema's shape",
+          "observed": "dict ['title']",
+          "passed": true,
+          "evidence": {
+            "output": {
+              "title": "Example Domain"
+            }
+          }
+        },
+        {
+          "name": "unsatisfiable_still_completes",
+          "expected": "completed, per the docs",
+          "observed": "completed",
+          "passed": true,
+          "evidence": {
+            "id": "task_ae0ee2f66ccb403394e3cff17c2c425a",
+            "status": "completed",
+            "model": "moss-fast",
+            "effort": "medium",
+            "verification": {
+              "method": "output_schema",
+              "passed": true
+            },
+            "error": null,
+            "cancel_requested": false,
+            "trace_available": true,
+            "live_url": null,
+            "files_expire_at": "2026-12-02T11:33:21.300525+00:00",
+            "created_at": "2026-11-25T11:33:01.656378+00:00",
+            "started_at": "2026-11-25T11:33:01.667649+00:00",
+            "finished_at": "2026-11-25T11:33:21.300525+00:00",
+            "usage": {
+              "cost": {
+                "model_usd": 0.005945,
+                "total_usd": 0.006278,
+                "browser_usd": 0.0003333333333333333,
+                "traffic_usd": null
+              },
+              "steps": 2,
+              "cost_usd": 0.005945,
+              "model_calls": 3,
+              "input_tokens": 18078,
+              "output_tokens": 679,
+              "browser_minutes": 0.32,
+              "browser_seconds": 19,
+              "browser_traffic_mb": null,
+              "cached_input_tokens": 9814
+            },
+            "result": {
+              "output": {
+                "isbn": "Not found",
+                "author": "Not found"
+              },
+              "output_text": "{\"isbn\":\"Not found\",\"author\":\"Not found\"}"
+            }
+          }
+        },
+        {
+          "name": "unsatisfiable_fails_verification",
+          "expected": "verification.passed false",
+          "observed": "passed=True method=output_schema",
+          "passed": false,
+          "evidence": {
+            "verification": {
+              "method": "output_schema",
+              "passed": true
+            }
+          }
+        },
+        {
+          "name": "verification_explains",
+          "expected": "problems is a non-empty list a caller can act on",
+          "observed": "0 problem(s): []",
+          "passed": false,
+          "evidence": {
+            "problems": []
+          }
+        },
+        {
+          "name": "malformed_schema_rejected_before_running",
+          "expected": "400, no task created",
+          "observed": "400 invalid_request_error",
+          "passed": true,
+          "evidence": {
+            "status": 400,
+            "code": "invalid_request_error",
+            "type": "invalid_request_error",
+            "message": "output_schema.properties.title.type must be one of object, array, string, boolean, null, integer, number, or a list of them",
+            "request_id": "c39fe1f0420142b79d0cd424de9f634f"
+          }
+        }
+      ],
+      "notes": [
+        "A schema miss is a 202-shaped success: status=completed, exit code 0 for any client that checks status only. The only signal is verification.passed."
+      ],
+      "task_ids": [
+        "task_5c69da2a9766490ea8e6a9e1c9d1ac9f",
+        "task_ae0ee2f66ccb403394e3cff17c2c425a"
+      ]
+    },
+    {
+      "id": "F",
+      "suite": "failures",
+      "title": "Failure taxonomy",
+      "skipped": null,
+      "checks": [
+        {
+          "name": "dns_failure_terminal",
+          "expected": "ends, does not hang",
+          "observed": "completed after 10 poll(s), $0.0045",
+          "passed": true,
+          "evidence": {
+            "id": "task_29bf2dff03e04c49a867973835b79009",
+            "status": "completed",
+            "model": "moss-fast",
+            "effort": "medium",
+            "verification": {
+              "method": "agent_reported",
+              "passed": null
+            },
+            "error": null,
+            "cancel_requested": false,
+            "trace_available": true,
+            "live_url": null,
+            "files_expire_at": "2026-12-02T11:33:43.389952+00:00",
+            "created_at": "2026-11-25T11:33:22.261171+00:00",
+            "started_at": "2026-11-25T11:33:22.271826+00:00",
+            "finished_at": "2026-11-25T11:33:43.389952+00:00",
+            "usage": {
+              "cost": {
+                "model_usd": 0.004205,
+                "total_usd": 0.004538,
+                "browser_usd": 0.0003333333333333333,
+                "traffic_usd": null
+              },
+              "steps": 2,
+              "cost_usd": 0.004205,
+              "model_calls": 3,
+              "input_tokens": 11279,
+              "output_tokens": 541,
+              "browser_minutes": 0.34,
+              "browser_seconds": 21,
+              "browser_traffic_mb": null,
+              "cached_input_tokens": 4010
+            },
+            "result": {
+              "output": null,
+              "output_text": "I couldn’t verify the page title because the URL failed to load. The browser showed `ERR_SOCKS_CONNECTION_FAILED`; its displayed title was `moss-72231fe4.invalid`, but that was on Chrome’s error page."
+            }
+          }
+        },
+        {
+          "name": "page_404_terminal",
+          "expected": "ends, does not hang",
+          "observed": "completed after 7 poll(s), $0.0045",
+          "passed": true,
+          "evidence": {
+            "id": "task_17276736a27e43aab4490d462feeab40",
+            "status": "completed",
+            "model": "moss-fast",
+            "effort": "medium",
+            "verification": {
+              "method": "agent_reported",
+              "passed": null
+            },
+            "error": null,
+            "cancel_requested": false,
+            "trace_available": true,
+            "live_url": null,
+            "files_expire_at": "2026-12-02T11:33:59.884621+00:00",
+            "created_at": "2026-11-25T11:33:45.573003+00:00",
+            "started_at": "2026-11-25T11:33:45.591138+00:00",
+            "finished_at": "2026-11-25T11:33:59.884621+00:00",
+            "usage": {
+              "cost": {
+                "model_usd": 0.004186,
+                "total_usd": 0.004519,
+                "browser_usd": 0.0003333333333333333,
+                "traffic_usd": null
+              },
+              "steps": 2,
+              "cost_usd": 0.004186,
+              "model_calls": 3,
+              "input_tokens": 11408,
+              "output_tokens": 445,
+              "browser_minutes": 0.23,
+              "browser_seconds": 14,
+              "browser_traffic_mb": null,
+              "cached_input_tokens": 4002
+            },
+            "result": {
+              "output": null,
+              "output_text": "The page title is **Example Domain**."
+            }
+          }
+        },
+        {
+          "name": "no_such_entity_terminal",
+          "expected": "ends, does not hang",
+          "observed": "completed after 18 poll(s), $0.0093",
+          "passed": true,
+          "evidence": {
+            "id": "task_2d8458a85f52427ba3bf5d2eeadb370b",
+            "status": "completed",
+            "model": "moss-fast",
+            "effort": "medium",
+            "verification": {
+              "method": "agent_reported",
+              "passed": null
+            },
+            "error": null,
+            "cancel_requested": false,
+            "trace_available": true,
+            "live_url": null,
+            "files_expire_at": "2026-12-02T11:34:40.341776+00:00",
+            "created_at": "2026-11-25T11:34:00.742813+00:00",
+            "started_at": "2026-11-25T11:34:00.757973+00:00",
+            "finished_at": "2026-11-25T11:34:40.341776+00:00",
+            "usage": {
+              "cost": {
+                "model_usd": 0.008918,
+                "total_usd": 0.009251,
+                "browser_usd": 0.0003333333333333333,
+                "traffic_usd": null
+              },
+              "steps": 4,
+              "cost_usd": 0.008918,
+              "model_calls": 5,
+              "input_tokens": 35850,
+              "output_tokens": 1614,
+              "browser_minutes": 0.65,
+              "browser_seconds": 39,
+              "browser_traffic_mb": null,
+              "cached_input_tokens": 22708
+            },
+            "result": {
+              "output": null,
+              "output_text": "No verified direct phone number can be reported. DuckDuckGo found no results for the exact company name and no relevant information for the CEO-and-phone follow-up:\n\n- [Exact-name search](https://duckduckgo.com/?q=%22Zorblax+Dynamics%22)\n- [CEO and phone follow-up](https://duckduckgo.com/?q=Zorblax+Dynamics+company+CEO+phone)\n\nI found no credible matching company source or official record to verify an executive or number."
+            }
+          }
+        }
+      ],
+      "notes": [
+        "dns_failure: ended completed with no error; the agent answered around the failure. output_text='I couldn’t verify the page title because the URL failed to load. The browser showed `ERR_SOCKS_CONNECTION_FAILED`; its displayed title was `moss-72231fe4.invali'",
+        "page_404: ended completed with no error; the agent answered around the failure. output_text='The page title is **Example Domain**.'",
+        "no_such_entity: ended completed with no error; the agent answered around the failure. output_text='No verified direct phone number can be reported. DuckDuckGo found no results for the exact company name and no relevant information for the CEO-and-phone follow'"
+      ],
+      "task_ids": [
+        "task_29bf2dff03e04c49a867973835b79009",
+        "task_17276736a27e43aab4490d462feeab40",
+        "task_2d8458a85f52427ba3bf5d2eeadb370b"
+      ]
+    },
+    {
+      "id": "G",
+      "suite": "files",
+      "title": "Task files",
+      "skipped": null,
+      "checks": [
+        {
+          "name": "list_shape",
+          "expected": "{object: \"list\", data: [{path, bytes}]}",
+          "observed": "200 keys=['data', 'object']",
+          "passed": true,
+          "evidence": {
+            "status": 200,
+            "code": null,
+            "type": null,
+            "message": "",
+            "request_id": "0f2e689817be473f9518e1a5aa0620b7"
+          }
+        },
+        {
+          "name": "files_present",
+          "expected": "at least one file after a finished task",
+          "observed": "5 file(s)",
+          "passed": true,
+          "evidence": {
+            "paths": [
+              "outputs/notes.txt",
+              "screenshots/agent/ses_ded83646fffe2DIyNSrpcoiuog-1795606522414-000.png",
+              "screenshots/runner/00001-step-5.png",
+              "screenshots/runner/00002-step-7.png",
+              "screenshots/runner/00003-step-11.png"
+            ]
+          }
+        },
+        {
+          "name": "download",
+          "expected": "200 with the listed byte count",
+          "observed": "200 bytes=96 listed=96",
+          "passed": true,
+          "evidence": {
+            "path": "outputs/notes.txt",
+            "content_type": "text/plain; charset=utf-8",
+            "content_length": "96",
+            "disposition": "attachment; filename*=UTF-8''notes.txt",
+            "request_id": "a74cc75c891642bc94840504fcd591f2"
+          }
+        },
+        {
+          "name": "download_nested_path",
+          "expected": "200, same bytes",
+          "observed": "200 bytes=96",
+          "passed": true,
+          "evidence": {
+            "path": "outputs/notes.txt",
+            "status": 200,
+            "code": null,
+            "type": null,
+            "message": "",
+            "request_id": "960173c572ef4d5285f9e7a5eee9d9ef"
+          }
+        },
+        {
+          "name": "missing_file",
+          "expected": "404 not_found_error",
+          "observed": "404 not_found_error",
+          "passed": true,
+          "evidence": {
+            "status": 404,
+            "code": "not_found_error",
+            "type": "not_found_error",
+            "message": "No such file for this task",
+            "request_id": "4906724ae5494ec8820639daa808b034"
+          }
+        },
+        {
+          "name": "encoded_traversal_refused",
+          "expected": "4xx, not a file from outside the task directory",
+          "observed": "404 not_found_error",
+          "passed": true,
+          "evidence": {
+            "status": 404,
+            "code": "not_found_error",
+            "type": "not_found_error",
+            "message": "No such file for this task",
+            "request_id": "b36e980e1c0d44dca04784b1d8e3e7d5",
+            "note": "single benign check; no attempt was made to read a host file"
+          }
+        }
+      ],
+      "notes": [],
+      "task_ids": [
+        "task_29dfe1d4eef24caf9267dc79b55ec323"
+      ]
+    },
+    {
+      "id": "D",
+      "suite": "sdk",
+      "title": "SDK polling behaviour",
+      "skipped": null,
+      "checks": [
+        {
+          "name": "sdk_run_returns_task",
+          "expected": "completed",
+          "observed": "completed in 15.4s",
+          "passed": true,
+          "evidence": {
+            "id": "task_cf17fc31c9684822ace8141d270b0906",
+            "status": "completed",
+            "model": "moss-fast",
+            "effort": "medium",
+            "verification": {
+              "method": "agent_reported",
+              "passed": null
+            },
+            "error": null,
+            "cancel_requested": false,
+            "trace_available": true,
+            "live_url": null,
+            "files_expire_at": "2026-12-02T11:36:01.396610+00:00",
+            "created_at": "2026-11-25T11:35:48.629874+00:00",
+            "started_at": "2026-11-25T11:35:48.647265+00:00",
+            "finished_at": "2026-11-25T11:36:01.396610+00:00",
+            "usage": {
+              "cost": {
+                "model_usd": 0.00361,
+                "total_usd": 0.003943,
+                "browser_usd": 0.0003333333333333333,
+                "traffic_usd": null
+              },
+              "steps": 2,
+              "cost_usd": 0.00361,
+              "model_calls": 3,
+              "input_tokens": 11047,
+              "output_tokens": 358,
+              "browser_minutes": 0.2,
+              "browser_seconds": 12,
+              "browser_traffic_mb": null,
+              "cached_input_tokens": 3995
+            },
+            "result": {
+              "output": null,
+              "output_text": "The page title is **Example Domain**."
+            }
+          }
+        },
+        {
+          "name": "sdk_one_create",
+          "expected": "exactly one POST",
+          "observed": "POST=1 GET=6",
+          "passed": true,
+          "evidence": {
+            "counts": {
+              "POST": 1,
+              "GET": 6
+            }
+          }
+        },
+        {
+          "name": "sdk_poll_cadence",
+          "expected": "roughly one GET per 2 s, fixed, no backoff",
+          "observed": "6 GET(s) in 15.4s, expected about 8",
+          "passed": true,
+          "evidence": {
+            "counts": {
+              "POST": 1,
+              "GET": 6
+            },
+            "elapsed_s": 15.4,
+            "polls": 6
+          }
+        },
+        {
+          "name": "sdk_surfaces_cost",
+          "expected": "raw usage carries the cost block the SDK types do not",
+          "observed": "cost={'model_usd': 0.00361, 'total_usd': 0.003943, 'browser_usd': 0.0003333333333333333, 'traffic_usd': None}",
+          "passed": true,
+          "evidence": {
+            "usage": {
+              "cost": {
+                "model_usd": 0.00361,
+                "total_usd": 0.003943,
+                "browser_usd": 0.0003333333333333333,
+                "traffic_usd": null
+              },
+              "steps": 2,
+              "cost_usd": 0.00361,
+              "model_calls": 3,
+              "input_tokens": 11047,
+              "output_tokens": 358,
+              "browser_minutes": 0.2,
+              "browser_seconds": 12,
+              "browser_traffic_mb": null,
+              "cached_input_tokens": 3995
+            }
+          }
+        }
+      ],
+      "notes": [
+        "For a task of 15s the SDK spent 6 requests on polling. At the documented 20-minute default on moss-advanced that is about 600 GETs, with no Retry-After or server hint to slow down. Polling is the client's whole integration surface and it is fixed at 2 s."
+      ],
+      "task_ids": [
+        "task_cf17fc31c9684822ace8141d270b0906"
+      ]
+    }
+  ],
+  "errors": []
+}

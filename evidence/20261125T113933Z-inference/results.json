@@ -1,0 +1,135 @@
+{
+  "run": "20261125T113933Z-inference",
+  "started_utc": "20261125T113933Z",
+  "finished_utc": "20261125T113937Z",
+  "gateway": "https://inference.moss.dev/v1",
+  "budget": {
+    "spent_usd": 0.0,
+    "tasks_created": 0,
+    "ceiling_usd": 0.5,
+    "task_ceiling": 40
+  },
+  "results": [
+    {
+      "id": "N",
+      "suite": "inference",
+      "title": "Inference path and the indexes header",
+      "skipped": null,
+      "checks": [
+        {
+          "name": "response_ok",
+          "expected": "200 with an OpenAI-shaped object",
+          "observed": "200 object='response' output_text='None'",
+          "passed": true,
+          "evidence": {
+            "status": 200,
+            "code": null,
+            "type": null,
+            "message": "",
+            "request_id": "c1b81dd6705b48548d598fb262f57ce4",
+            "elapsed_ms": 2988
+          }
+        },
+        {
+          "name": "usage_tokens_present",
+          "expected": "input and output token counts",
+          "observed": "in=94 out=2",
+          "passed": true,
+          "evidence": {
+            "usage": {
+              "total_tokens": 96,
+              "input_tokens": 94,
+              "input_tokens_details": {
+                "cached_tokens": 0
+              },
+              "output_tokens": 2,
+              "output_tokens_details": {
+                "reasoning_tokens": 0
+              }
+            },
+            "request_id": "c1b81dd6705b48548d598fb262f57ce4"
+          }
+        },
+        {
+          "name": "rate_limit_headers",
+          "expected": "the x-ratelimit-* set the docs describe",
+          "observed": "['x-ratelimit-limit-requests', 'x-ratelimit-limit-tokens', 'x-ratelimit-remaining-requests', 'x-ratelimit-remaining-tokens', 'x-ratelimit-reset-requests', 'x-ratelimit-reset-tokens']",
+          "passed": true,
+          "evidence": {
+            "headers": {
+              "x-ratelimit-limit-requests": "120",
+              "x-ratelimit-limit-tokens": "600000",
+              "x-ratelimit-remaining-requests": "10",
+              "x-ratelimit-remaining-tokens": "600000",
+              "x-ratelimit-reset-requests": "0s",
+              "x-ratelimit-reset-tokens": "0s"
+            },
+            "request_id": "c1b81dd6705b48548d598fb262f57ce4"
+          }
+        },
+        {
+          "name": "body_indexes_is_read",
+          "expected": "4xx, because index_that_does_not_exist_9f3c does not exist",
+          "observed": "400 unsupported_parameter",
+          "passed": true,
+          "evidence": {
+            "status": 400,
+            "code": "unsupported_parameter",
+            "type": "invalid_request_error",
+            "message": "indexes is not supported",
+            "request_id": "1aefd32e75f2411f885719bbd133e012"
+          }
+        },
+        {
+          "name": "header_indexes_is_read",
+          "expected": "4xx, because index_that_does_not_exist_9f3c does not exist",
+          "observed": "403 permission_error",
+          "passed": true,
+          "evidence": {
+            "status": 403,
+            "code": "permission_error",
+            "type": "permission_error",
+            "message": "X-Moss-Indexes names an index outside this project",
+            "request_id": "b1a4a9bb36be4a49a33da3f6fce8d234"
+          }
+        },
+        {
+          "name": "unknown_model_refused",
+          "expected": "400 model_not_found",
+          "observed": "400 model_not_found",
+          "passed": true,
+          "evidence": {
+            "status": 400,
+            "code": "model_not_found",
+            "type": "invalid_request_error",
+            "message": "Unknown model moss-does-not-exist. Send model moss/fastlane-1, or a vendor model name with your own key in X-Moss-Provider-Key.",
+            "request_id": "542490319c1941159d25402b4b145a95"
+          }
+        },
+        {
+          "name": "stream_event_names",
+          "expected": "response.output_text.delta among the events",
+          "observed": "['response.created', 'response.in_progress', 'response.output_item.added', 'response.content_part.added', 'response.output_text.delta', 'response.output_text.done', 'response.content_part.done', 'response.output_item.done']",
+          "passed": true,
+          "evidence": {
+            "events": [
+              "response.created",
+              "response.in_progress",
+              "response.output_item.added",
+              "response.content_part.added",
+              "response.output_text.delta",
+              "response.output_text.done",
+              "response.content_part.done",
+              "response.output_item.done",
+              "response.completed"
+            ],
+            "first_delta": "ready"
+          }
+        }
+      ],
+      "notes": [],
+      "task_ids": []
+    }
+  ],
+  "errors": []
+}

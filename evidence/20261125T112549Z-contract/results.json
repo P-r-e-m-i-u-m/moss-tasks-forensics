@@ -1,0 +1,247 @@
+{
+  "run": "20261125T112549Z-contract",
+  "started_utc": "20261125T112549Z",
+  "finished_utc": "20261125T112600Z",
+  "gateway": "https://inference.moss.dev/v1",
+  "budget": {
+    "spent_usd": 0.0,
+    "tasks_created": 0,
+    "ceiling_usd": 3.0,
+    "task_ceiling": 40
+  },
+  "results": [
+    {
+      "id": "C",
+      "suite": "contract",
+      "title": "Request validation and error shape",
+      "skipped": null,
+      "checks": [
+        {
+          "name": "unknown_field",
+          "expected": "400 invalid_request_error",
+          "observed": "400 invalid_request_error",
+          "passed": true,
+          "evidence": {
+            "status": 400,
+            "code": "invalid_request_error",
+            "type": "invalid_request_error",
+            "message": "Unknown field nope",
+            "request_id": "5ffdafcdcac1418fbfcdde685c54b185",
+            "body_bytes": 213
+          }
+        },
+        {
+          "name": "unknown_field_names_the_field",
+          "expected": "message names the offending field",
+          "observed": "named=True: Unknown field nope",
+          "passed": true,
+          "evidence": {
+            "status": 400,
+            "code": "invalid_request_error",
+            "type": "invalid_request_error",
+            "message": "Unknown field nope",
+            "request_id": "5ffdafcdcac1418fbfcdde685c54b185"
+          }
+        },
+        {
+          "name": "environment_type",
+          "expected": "400",
+          "observed": "400 invalid_request_error",
+          "passed": true,
+          "evidence": {
+            "status": 400,
+            "code": "invalid_request_error",
+            "type": "invalid_request_error",
+            "message": "environment must be {\"type\": \"browser\"}; v0 runs browser tasks only",
+            "request_id": "721e5dc4fcbf4205b08b680c81eab4cf",
+            "body_bytes": 166
+          }
+        },
+        {
+          "name": "effort_value",
+          "expected": "400",
+          "observed": "400 invalid_request_error",
+          "passed": true,
+          "evidence": {
+            "status": 400,
+            "code": "invalid_request_error",
+            "type": "invalid_request_error",
+            "message": "effort must be low, medium or high",
+            "request_id": "9725975f78af4abab34cbda4f9989174",
+            "body_bytes": 223
+          }
+        },
+        {
+          "name": "runtime_below_min",
+          "expected": "400",
+          "observed": "400 invalid_request_error",
+          "passed": true,
+          "evidence": {
+            "status": 400,
+            "code": "invalid_request_error",
+            "type": "invalid_request_error",
+            "message": "limits.max_runtime_seconds must be a number from 60 to 7200",
+            "request_id": "d22e4db2aa73488f9131e671ec75f4d8",
+            "body_bytes": 202
+          }
+        },
+        {
+          "name": "runtime_above_max",
+          "expected": "400",
+          "observed": "400 invalid_request_error",
+          "passed": true,
+          "evidence": {
+            "status": 400,
+            "code": "invalid_request_error",
+            "type": "invalid_request_error",
+            "message": "limits.max_runtime_seconds must be a number from 60 to 7200",
+            "request_id": "08ee76746ebf42c089add1e45201c927",
+            "body_bytes": 204
+          }
+        },
+        {
+          "name": "cost_below_min",
+          "expected": "400",
+          "observed": "400 invalid_request_error",
+          "passed": true,
+          "evidence": {
+            "status": 400,
+            "code": "invalid_request_error",
+            "type": "invalid_request_error",
+            "message": "limits.max_cost_usd must be a number from 0.01 to 50",
+            "request_id": "a83155c1d56743bf89268816e7c45eb6",
+            "body_bytes": 203
+          }
+        },
+        {
+          "name": "cost_above_max",
+          "expected": "400",
+          "observed": "400 invalid_request_error",
+          "passed": true,
+          "evidence": {
+            "status": 400,
+            "code": "invalid_request_error",
+            "type": "invalid_request_error",
+            "message": "limits.max_cost_usd must be a number from 0.01 to 50",
+            "request_id": "eb23efabe5364443ab4945f06f8dfda3",
+            "body_bytes": 203
+          }
+        },
+        {
+          "name": "goal_over_20k",
+          "expected": "400",
+          "observed": "400 invalid_request_error",
+          "passed": true,
+          "evidence": {
+            "status": 400,
+            "code": "invalid_request_error",
+            "type": "invalid_request_error",
+            "message": "goal must be text of 1 to 20000 characters",
+            "request_id": "e21f6cbaba7248a3993af97be9e0ff37",
+            "body_bytes": 20168
+          }
+        },
+        {
+          "name": "metadata_over_4k",
+          "expected": "400",
+          "observed": "400 invalid_request_error",
+          "passed": true,
+          "evidence": {
+            "status": 400,
+            "code": "invalid_request_error",
+            "type": "invalid_request_error",
+            "message": "metadata must be an object under 4000 bytes",
+            "request_id": "421b5d488bce4e08a29e777b3e8d5d03",
+            "body_bytes": 5228
+          }
+        },
+        {
+          "name": "schema_not_object",
+          "expected": "400",
+          "observed": "400 invalid_request_error",
+          "passed": true,
+          "evidence": {
+            "status": 400,
+            "code": "invalid_request_error",
+            "type": "invalid_request_error",
+            "message": "output_schema must describe one JSON object: its \"type\" must be \"object\". For a list, put it in a property, such as {\"type\": \"object\", \"properties\": {\"items\": {\"type\": \"array\"}}}",
+            "request_id": "5ed8d282b1cc46249987fbf90ae50ae0",
+            "body_bytes": 239
+          }
+        },
+        {
+          "name": "model_unknown",
+          "expected": "400 model_not_found",
+          "observed": "400 model_not_found",
+          "passed": true,
+          "evidence": {
+            "status": 400,
+            "code": "model_not_found",
+            "type": "invalid_request_error",
+            "message": "model must be a Moss tier or a Moss catalog model that tasks serve: moss-advanced, moss-balanced, moss-balanced-handoff, moss-fast, moss-fast-beta, anthropic/claude-fable-5.1, anthropic/claude-haiku-5.5, anthropic/claude-opus-5.5, anthropic/claude-sonnet-5.5, deepseek/deepseek-v4.1-flash, deepseek/deepseek-v4.1-flash-1017, google/gemini-3.5-flash-lite, google/gemini-3.8-flash, google/gemini-4-argon, minimax/minimax-m3.1-flash, moonshotai/kimi-k3, moss/fastlane-1, openai/gpt-6-astra, openai/gpt-6-luna, openai/gpt-6.1-sol, openai/gpt-6.1-terra, qwen/qwen3.8-flash, z-ai/glm-5.3, z-ai/glm-5.3-flash",
+            "request_id": "ba85e761b1e541b0ba4c62b889dcb992",
+            "body_bytes": 212
+          }
+        },
+        {
+          "name": "environment_missing",
+          "expected": "400",
+          "observed": "400 invalid_request_error",
+          "passed": true,
+          "evidence": {
+            "status": 400,
+            "code": "invalid_request_error",
+            "type": "invalid_request_error",
+            "message": "environment must be {\"type\": \"browser\"}; v0 runs browser tasks only",
+            "request_id": "962651817344467a9dcb3843b7ff1e5f",
+            "body_bytes": 130
+          }
+        },
+        {
+          "name": "body_over_256kib",
+          "expected": "413",
+          "observed": "413 invalid_request_error",
+          "passed": true,
+          "evidence": {
+            "status": 413,
+            "code": "invalid_request_error",
+            "type": "invalid_request_error",
+            "message": "The request body is larger than 262144 bytes",
+            "request_id": "e01a7ce976c34ed094159d175a336eea",
+            "body_bytes": 320752,
+            "note": "if 400, validation runs before the size check; the docs promise 413"
+          }
+        },
+        {
+          "name": "list_route_absent",
+          "expected": "404 or 405 (no list route is documented)",
+          "observed": "200 ",
+          "passed": false,
+          "evidence": {
+            "status": 200,
+            "code": null,
+            "type": null,
+            "message": "",
+            "request_id": "4d0788be635a4a21952480bb33a04092"
+          }
+        },
+        {
+          "name": "unknown_task",
+          "expected": "404 not_found_error",
+          "observed": "404 not_found_error",
+          "passed": true,
+          "evidence": {
+            "status": 404,
+            "code": "not_found_error",
+            "type": "not_found_error",
+            "message": "No task with this id in this project",
+            "request_id": "234a1792c47e4c98bdef778d6e059f19"
+          }
+        }
+      ],
+      "notes": [],
+      "task_ids": []
+    }
+  ],
+  "errors": []
+}

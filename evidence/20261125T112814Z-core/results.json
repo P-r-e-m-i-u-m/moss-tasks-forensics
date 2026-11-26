@@ -1,0 +1,724 @@
+{
+  "run": "20261125T112814Z-core",
+  "started_utc": "20261125T112814Z",
+  "finished_utc": "20261125T112853Z",
+  "gateway": "https://inference.moss.dev/v1",
+  "budget": {
+    "spent_usd": 0.005211,
+    "tasks_created": 11,
+    "ceiling_usd": 2.0,
+    "task_ceiling": 40
+  },
+  "results": [
+    {
+      "id": "R",
+      "suite": "listing",
+      "title": "The undocumented list route",
+      "skipped": null,
+      "checks": [
+        {
+          "name": "list_route_exists",
+          "expected": "404, since the reference documents no list route",
+          "observed": "200, keys=['data', 'first_id', 'has_more', 'last_id', 'object', 'total']",
+          "passed": false,
+          "evidence": {
+            "status": 200,
+            "keys": [
+              "data",
+              "first_id",
+              "has_more",
+              "last_id",
+              "object",
+              "total"
+            ],
+            "request_id": "5dd49611005c4db2a4652d475d0c12b9"
+          }
+        },
+        {
+          "name": "list_shape",
+          "expected": "object=\"list\" with data, first_id, last_id, has_more, total",
+          "observed": "['data', 'first_id', 'has_more', 'last_id', 'object', 'total']",
+          "passed": true,
+          "evidence": {
+            "body_keys": [
+              "data",
+              "first_id",
+              "has_more",
+              "last_id",
+              "object",
+              "total"
+            ],
+            "total": 0,
+            "request_id": "5dd49611005c4db2a4652d475d0c12b9"
+          }
+        },
+        {
+          "name": "limit_1",
+          "expected": "200",
+          "observed": "200",
+          "passed": true,
+          "evidence": {
+            "status": 200,
+            "request_id": "8627ffb4399145c28d6cf87525a89c87"
+          }
+        },
+        {
+          "name": "limit_100",
+          "expected": "200",
+          "observed": "200",
+          "passed": true,
+          "evidence": {
+            "status": 200,
+            "request_id": "32ae55e3429c4e9e8a100889c13a2045"
+          }
+        },
+        {
+          "name": "limit_0",
+          "expected": "400",
+          "observed": "400 invalid_request_error",
+          "passed": true,
+          "evidence": {
+            "status": 400,
+            "request_id": "5d8d38ef6d2f4981893453cb009219c4"
+          }
+        },
+        {
+          "name": "limit_101",
+          "expected": "400",
+          "observed": "400 invalid_request_error",
+          "passed": true,
+          "evidence": {
+            "status": 400,
+            "request_id": "f88d892d14fd41e9bf3c18739dee5691"
+          }
+        },
+        {
+          "name": "limit_abc",
+          "expected": "400",
+          "observed": "400 invalid_request_error",
+          "passed": true,
+          "evidence": {
+            "status": 400,
+            "request_id": "e4b6515abf5c49e7a7b418f9612ca9f8"
+          }
+        },
+        {
+          "name": "after_validated",
+          "expected": "400 for an id that is not a task of this project",
+          "observed": "400 after must be the id of a task of this project",
+          "passed": true,
+          "evidence": {
+            "status": 400,
+            "request_id": "79605ac7d3774deb9167adf1f71d97b2"
+          }
+        },
+        {
+          "name": "before_validated",
+          "expected": "400, for the same reason as after",
+          "observed": "200 ",
+          "passed": false,
+          "evidence": {
+            "status": 200,
+            "request_id": "5d718988bf484330ba2b81c1056abe04"
+          }
+        },
+        {
+          "name": "filter_status",
+          "expected": "400 unknown parameter, or a filtered result",
+          "observed": "200 total=0",
+          "passed": true,
+          "evidence": {
+            "status": 200,
+            "total": 0,
+            "request_id": "d2cf4f81775843b3abc52ae0b0b9209c"
+          }
+        },
+        {
+          "name": "filter_goal",
+          "expected": "400 unknown parameter, or a filtered result",
+          "observed": "200 total=0",
+          "passed": true,
+          "evidence": {
+            "status": 200,
+            "total": 0,
+            "request_id": "b419b19d97de4839a56db6a1a05a7efe"
+          }
+        },
+        {
+          "name": "filter_metadata",
+          "expected": "400 unknown parameter, or a filtered result",
+          "observed": "200 total=0",
+          "passed": true,
+          "evidence": {
+            "status": 200,
+            "total": 0,
+            "request_id": "f75b373710a0485c922e50cbd9f3bd00"
+          }
+        },
+        {
+          "name": "pagination_walk",
+          "expected": "walking by after returns distinct ids and agrees with total",
+          "observed": "walked=0 total=0 distinct=0",
+          "passed": true,
+          "evidence": {
+            "walked": [],
+            "total": 0
+          }
+        }
+      ],
+      "notes": [
+        "`GET /v1/tasks` returns a paginated list. The reference documents create, get, cancel, files and file download — five routes. This is a sixth.",
+        "`after` rejects an unknown task id; `before` accepts one and returns the first page. Two cursors on the same route, two different contracts.",
+        "Whether the list is scoped to this project cannot be proven with one project. The `after` error message says 'of this project', which is the only evidence either way."
+      ],
+      "task_ids": []
+    },
+    {
+      "id": "I",
+      "suite": "idempotency",
+      "title": "Idempotency-Key semantics",
+      "skipped": null,
+      "checks": [
+        {
+          "name": "replay_same_body",
+          "expected": "same task id, Idempotent-Replayed: true",
+          "observed": "ids_match=True header='true'",
+          "passed": true,
+          "evidence": {
+            "first": {
+              "status": 202,
+              "code": null,
+              "type": null,
+              "message": "",
+              "request_id": "8ce474f48b9d45f796240538370ab3c1"
+            },
+            "second": {
+              "status": 202,
+              "code": null,
+              "type": null,
+              "message": "",
+              "request_id": "d291733fd7fe4895a44b3a253f0e6c73"
+            },
+            "first_id": "task_0a847b767dd24af18d8b2e8f637d0795",
+            "second_id": "task_0a847b767dd24af18d8b2e8f637d0795",
+            "first_has_header": null
+          }
+        },
+        {
+          "name": "replay_reordered_keys",
+          "expected": "treated as the same body (same id) or refused with 422",
+          "observed": "202  ids_match=True",
+          "passed": true,
+          "evidence": {
+            "first": {
+              "status": 202,
+              "code": null,
+              "type": null,
+              "message": "",
+              "request_id": "36572f62fed44e81b61bdf858f737107"
+            },
+            "second": {
+              "status": 202,
+              "code": null,
+              "type": null,
+              "message": "",
+              "request_id": "cc61493a58eb40b39aa839d5a95668b4"
+            },
+            "first_id": "task_7ee1f8e32bd64e958252a043a7275941",
+            "second_id": "task_7ee1f8e32bd64e958252a043a7275941"
+          }
+        },
+        {
+          "name": "replay_different_body",
+          "expected": "422 idempotency_key_reused",
+          "observed": "422 idempotency_key_reused",
+          "passed": true,
+          "evidence": {
+            "first": {
+              "status": 202,
+              "code": null,
+              "type": null,
+              "message": "",
+              "request_id": "d1efdbfb9d424be8ac768fad1315e9f2"
+            },
+            "second": {
+              "status": 422,
+              "code": "idempotency_key_reused",
+              "type": "invalid_request_error",
+              "message": "This Idempotency-Key was sent with another body. Send a new key for a new task",
+              "request_id": "4592673afef24cf7b2bbb5181846f8c4"
+            }
+          }
+        },
+        {
+          "name": "replay_concurrent",
+          "expected": "one distinct task id",
+          "observed": "1 distinct id(s) from 2 accepted request(s)",
+          "passed": true,
+          "evidence": {
+            "replies": [
+              {
+                "status": 202,
+                "code": null,
+                "type": null,
+                "message": "",
+                "request_id": "297813fec67e490a94ed1afb3c02dbee"
+              },
+              {
+                "status": 202,
+                "code": null,
+                "type": null,
+                "message": "",
+                "request_id": "46722670f9f34b9abc7431ebeb8cd9b6"
+              }
+            ],
+            "ids": [
+              "task_36513f7d23514ba4ad3edfe823901f76",
+              "task_36513f7d23514ba4ad3edfe823901f76"
+            ]
+          }
+        },
+        {
+          "name": "key_length_255",
+          "expected": "202",
+          "observed": "202 ",
+          "passed": true,
+          "evidence": {
+            "status": 202,
+            "code": null,
+            "type": null,
+            "message": "",
+            "request_id": "d0e6023aae06493fb80adb490b546e02"
+          }
+        },
+        {
+          "name": "key_length_256",
+          "expected": "400",
+          "observed": "400 invalid_request_error",
+          "passed": true,
+          "evidence": {
+            "status": 400,
+            "code": "invalid_request_error",
+            "type": "invalid_request_error",
+            "message": "Idempotency-Key must be 1 to 255 visible ASCII characters",
+            "request_id": "74f8f7d95b3449e8a000d7b23fc944a4"
+          }
+        }
+      ],
+      "notes": [
+        "reordered-key result tells us whether equality is computed on JSON semantics or on raw bytes."
+      ],
+      "task_ids": [
+        "task_0a847b767dd24af18d8b2e8f637d0795",
+        "task_7ee1f8e32bd64e958252a043a7275941",
+        "task_7ee1f8e32bd64e958252a043a7275941",
+        "task_37a995225f974e05b5e4b47b5fa66c91",
+        "task_36513f7d23514ba4ad3edfe823901f76",
+        "task_514689ce9fa848249b40a1a4b4f95cfb"
+      ]
+    },
+    {
+      "id": "L",
+      "suite": "lifecycle",
+      "title": "Task state machine and cancellation",
+      "skipped": null,
+      "checks": [
+        {
+          "name": "create_status",
+          "expected": "202 and a task id",
+          "observed": "202 task_c506d2b1736e41b78fd5923c5e2a474e",
+          "passed": true,
+          "evidence": {
+            "status": 202,
+            "code": null,
+            "type": null,
+            "message": "",
+            "request_id": "ba33fc2a77214e4d8aed04156084dab7"
+          }
+        },
+        {
+          "name": "reaches_terminal",
+          "expected": "completed",
+          "observed": "completed after 17.3s over 8 poll(s)",
+          "passed": true,
+          "evidence": {
+            "id": "task_c506d2b1736e41b78fd5923c5e2a474e",
+            "status": "completed",
+            "model": "moss-fast",
+            "effort": "medium",
+            "verification": {
+              "method": "agent_reported",
+              "passed": null
+            },
+            "error": null,
+            "cancel_requested": false,
+            "trace_available": true,
+            "live_url": null,
+            "files_expire_at": "2026-12-02T11:28:40.073418+00:00",
+            "created_at": "2026-11-25T11:28:24.004189+00:00",
+            "started_at": "2026-11-25T11:28:24.020033+00:00",
+            "finished_at": "2026-11-25T11:28:40.073418+00:00",
+            "usage": {
+              "cost": {
+                "model_usd": 0.004212,
+                "total_usd": 0.004545,
+                "browser_usd": 0.0003333333333333333,
+                "traffic_usd": null
+              },
+              "steps": 2,
+              "cost_usd": 0.004212,
+              "model_calls": 3,
+              "input_tokens": 13787,
+              "output_tokens": 659,
+              "browser_minutes": 0.26,
+              "browser_seconds": 16,
+              "browser_traffic_mb": null,
+              "cached_input_tokens": 4013
+            },
+            "result": {
+              "output": null,
+              "output_text": "The page at https://example.com/ loaded successfully. Its title is **Example Domain**."
+            },
+            "polls": 8,
+            "wall_s": 17.3
+          }
+        },
+        {
+          "name": "transitions_monotonic",
+          "expected": "queued -> running -> terminal, no regressions",
+          "observed": "running -> completed",
+          "passed": true,
+          "evidence": {
+            "transitions": [
+              "running",
+              "completed"
+            ]
+          }
+        },
+        {
+          "name": "timestamps_ordered",
+          "expected": "created_at <= started_at <= finished_at",
+          "observed": "2026-11-25T11:28:24.004189+00:00 / 2026-11-25T11:28:24.020033+00:00 / 2026-11-25T11:28:40.073418+00:00",
+          "passed": true,
+          "evidence": {
+            "id": "task_c506d2b1736e41b78fd5923c5e2a474e",
+            "status": "completed",
+            "model": "moss-fast",
+            "effort": "medium",
+            "verification": {
+              "method": "agent_reported",
+              "passed": null
+            },
+            "error": null,
+            "cancel_requested": false,
+            "trace_available": true,
+            "live_url": null,
+            "files_expire_at": "2026-12-02T11:28:40.073418+00:00",
+            "created_at": "2026-11-25T11:28:24.004189+00:00",
+            "started_at": "2026-11-25T11:28:24.020033+00:00",
+            "finished_at": "2026-11-25T11:28:40.073418+00:00",
+            "usage": {
+              "cost": {
+                "model_usd": 0.004212,
+                "total_usd": 0.004545,
+                "browser_usd": 0.0003333333333333333,
+                "traffic_usd": null
+              },
+              "steps": 2,
+              "cost_usd": 0.004212,
+              "model_calls": 3,
+              "input_tokens": 13787,
+              "output_tokens": 659,
+              "browser_minutes": 0.26,
+              "browser_seconds": 16,
+              "browser_traffic_mb": null,
+              "cached_input_tokens": 4013
+            },
+            "result": {
+              "output": null,
+              "output_text": "The page at https://example.com/ loaded successfully. Its title is **Example Domain**."
+            }
+          }
+        },
+        {
+          "name": "trace_available_field",
+          "expected": "boolean on a finished task",
+          "observed": "True",
+          "passed": true,
+          "evidence": {
+            "id": "task_c506d2b1736e41b78fd5923c5e2a474e",
+            "status": "completed",
+            "model": "moss-fast",
+            "effort": "medium",
+            "verification": {
+              "method": "agent_reported",
+              "passed": null
+            },
+            "error": null,
+            "cancel_requested": false,
+            "trace_available": true,
+            "live_url": null,
+            "files_expire_at": "2026-12-02T11:28:40.073418+00:00",
+            "created_at": "2026-11-25T11:28:24.004189+00:00",
+            "started_at": "2026-11-25T11:28:24.020033+00:00",
+            "finished_at": "2026-11-25T11:28:40.073418+00:00",
+            "usage": {
+              "cost": {
+                "model_usd": 0.004212,
+                "total_usd": 0.004545,
+                "browser_usd": 0.0003333333333333333,
+                "traffic_usd": null
+              },
+              "steps": 2,
+              "cost_usd": 0.004212,
+              "model_calls": 3,
+              "input_tokens": 13787,
+              "output_tokens": 659,
+              "browser_minutes": 0.26,
+              "browser_seconds": 16,
+              "browser_traffic_mb": null,
+              "cached_input_tokens": 4013
+            },
+            "result": {
+              "output": null,
+              "output_text": "The page at https://example.com/ loaded successfully. Its title is **Example Domain**."
+            }
+          }
+        },
+        {
+          "name": "trace_route_after_finish",
+          "expected": "200 with a step record",
+          "observed": "200  keys=['final_result', 'screenshots', 'steps', 'timeline', 'video']",
+          "passed": true,
+          "evidence": {
+            "status": 200,
+            "code": null,
+            "type": null,
+            "message": "",
+            "request_id": "8545fee6a46746aaaaf008bc8724863a",
+            "body_keys": [
+              "final_result",
+              "screenshots",
+              "steps",
+              "timeline",
+              "video"
+            ]
+          }
+        },
+        {
+          "name": "files_before_finish",
+          "expected": "409 task_not_finished",
+          "observed": "409 task_not_finished",
+          "passed": true,
+          "evidence": {
+            "status": 409,
+            "code": "task_not_finished",
+            "type": "invalid_request_error",
+            "message": "The task's files are served once it has finished",
+            "request_id": "c924b15853774066837129bfa77b6478"
+          }
+        },
+        {
+          "name": "trace_before_finish",
+          "expected": "structured 4xx, not 5xx",
+          "observed": "404 not_found_error",
+          "passed": true,
+          "evidence": {
+            "status": 404,
+            "code": "not_found_error",
+            "type": "not_found_error",
+            "message": "This task has no trace (yet)",
+            "request_id": "032e2f873d004acbb9fbf21b792d9ad0"
+          }
+        },
+        {
+          "name": "cancel_queued",
+          "expected": "200 and cancelled outright",
+          "observed": "200 running",
+          "passed": true,
+          "evidence": {
+            "status": 200,
+            "code": null,
+            "type": null,
+            "message": "",
+            "request_id": "bf09ecd9111c469d806e25f9f420f358",
+            "body": {
+              "id": "task_13e3dfbedba947bc977226af2a337192",
+              "status": "running",
+              "model": "moss-fast",
+              "effort": "medium",
+              "verification": null,
+              "error": null,
+              "cancel_requested": true,
+              "trace_available": false,
+              "live_url": null,
+              "files_expire_at": null,
+              "created_at": "2026-11-25T11:28:42.350817+00:00",
+              "started_at": "2026-11-25T11:28:42.363623+00:00",
+              "finished_at": null,
+              "usage": {
+                "cost": {
+                  "model_usd": 0.0,
+                  "total_usd": 0.0,
+                  "browser_usd": null,
+                  "traffic_usd": null
+                },
+                "steps": 0,
+                "cost_usd": 0.0,
+                "model_calls": 0,
+                "input_tokens": 0,
+                "output_tokens": 0,
+                "browser_minutes": 0.01,
+                "browser_seconds": 0,
+                "browser_traffic_mb": null,
+                "cached_input_tokens": 0
+              },
+              "result": null
+            }
+          }
+        },
+        {
+          "name": "queued_ends_cancelled",
+          "expected": "cancelled",
+          "observed": "cancelled",
+          "passed": true,
+          "evidence": {
+            "id": "task_13e3dfbedba947bc977226af2a337192",
+            "status": "cancelled",
+            "model": "moss-fast",
+            "effort": "medium",
+            "verification": null,
+            "error": null,
+            "cancel_requested": false,
+            "trace_available": true,
+            "live_url": null,
+            "files_expire_at": "2026-12-02T11:28:45.141520+00:00",
+            "created_at": "2026-11-25T11:28:42.350817+00:00",
+            "started_at": "2026-11-25T11:28:42.363623+00:00",
+            "finished_at": "2026-11-25T11:28:45.141520+00:00",
+            "usage": {
+              "cost": {
+                "model_usd": 0.0,
+                "total_usd": 0.000333,
+                "browser_usd": 0.0003333333333333333,
+                "traffic_usd": null
+              },
+              "steps": 0,
+              "cost_usd": 0.0,
+              "model_calls": 0,
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "browser_minutes": 0.04,
+              "browser_seconds": 2,
+              "browser_traffic_mb": null,
+              "cached_input_tokens": 0
+            },
+            "result": null
+          }
+        },
+        {
+          "name": "cancel_running",
+          "expected": "200, cancel_requested true or already cancelled",
+          "observed": "200 status=running requested=True",
+          "passed": true,
+          "evidence": {
+            "status": 200,
+            "code": null,
+            "type": null,
+            "message": "",
+            "request_id": "da40d335893044ffbc2a690179a3cdf6",
+            "saw_running": true
+          }
+        },
+        {
+          "name": "running_ends_cancelled",
+          "expected": "cancelled",
+          "observed": "cancelled",
+          "passed": true,
+          "evidence": {
+            "id": "task_7a7f9355b51b496bac3755e61b27410c",
+            "status": "cancelled",
+            "model": "moss-fast",
+            "effort": "medium",
+            "verification": null,
+            "error": null,
+            "cancel_requested": false,
+            "trace_available": true,
+            "live_url": null,
+            "files_expire_at": "2026-12-02T11:28:49.454109+00:00",
+            "created_at": "2026-11-25T11:28:46.673767+00:00",
+            "started_at": "2026-11-25T11:28:46.684004+00:00",
+            "finished_at": "2026-11-25T11:28:49.454109+00:00",
+            "usage": {
+              "cost": {
+                "model_usd": 0.0,
+                "total_usd": 0.000333,
+                "browser_usd": 0.0003333333333333333,
+                "traffic_usd": null
+              },
+              "steps": 0,
+              "cost_usd": 0.0,
+              "model_calls": 0,
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "browser_minutes": 0.04,
+              "browser_seconds": 2,
+              "browser_traffic_mb": null,
+              "cached_input_tokens": 0
+            },
+            "result": null,
+            "saw_running": true
+          }
+        },
+        {
+          "name": "cancel_completed",
+          "expected": "200, status unchanged",
+          "observed": "200 completed",
+          "passed": true,
+          "evidence": {
+            "status": 200,
+            "code": null,
+            "type": null,
+            "message": "",
+            "request_id": "ed3ac78fca6048d0affa3ce814d10580"
+          }
+        },
+        {
+          "name": "cancel_twice",
+          "expected": "idempotent",
+          "observed": "200 completed",
+          "passed": true,
+          "evidence": {
+            "status": 200,
+            "code": null,
+            "type": null,
+            "message": "",
+            "request_id": "785ee5ff6b9b4e8a8f65372a3c7e5e5d"
+          }
+        },
+        {
+          "name": "cancel_unknown",
+          "expected": "404 not_found_error",
+          "observed": "404 not_found_error",
+          "passed": true,
+          "evidence": {
+            "status": 404,
+            "code": "not_found_error",
+            "type": "not_found_error",
+            "message": "No task with this id in this project",
+            "request_id": "2c7b4dcdfa344d6487d402cfd3de0884"
+          }
+        }
+      ],
+      "notes": [
+        "trace body keys: ['final_result', 'screenshots', 'steps', 'timeline', 'video']"
+      ],
+      "task_ids": [
+        "task_c506d2b1736e41b78fd5923c5e2a474e",
+        "task_13e3dfbedba947bc977226af2a337192",
+        "task_7a7f9355b51b496bac3755e61b27410c"
+      ]
+    }
+  ],
+  "errors": []
+}

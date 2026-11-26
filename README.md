@@ -1,7 +1,8 @@
 # moss-tasks-forensics
 
-Evidence for a review of the Tasks API in [Moss Inference](https://docs.moss.dev/docs/inference/overview):
-what it promises, what it actually does, and where the two drift apart.
+Evidence for a review of [Moss Inference](https://docs.moss.dev/docs/inference/overview):
+the Portal, the Inference API and the Tasks API — what they promise, what they actually do,
+and where the two drift apart.
 
 This is the working record behind the one-page review in [`REVIEW.md`](REVIEW.md).
 Every claim on that page points at something in here — the request that produced it,
@@ -23,11 +24,14 @@ where the difference between the two is measured rather than assumed.
 mosslab/
   client.py        raw client: no retries, no backoff, evidence on every exchange
   model.py         result types
+  preflight.py     credential and route check before spending anything
   run.py           suite runner, writes evidence/<stamp>/results.json + summary.md
   followup.py      re-reads finished tasks later and diffs their cost
   verify.py        pre-push check: no credentials in tracked files
   probes/
     surface.py     what the gateway exposes without credentials
+    listing.py     the list route that is not in the reference
+    inference.py   /v1/responses, the indexes header, streaming, rate-limit headers
     contract.py    what the gateway accepts and how it refuses
     idempotency.py replay semantics, including the concurrent case
     lifecycle.py   status transitions, cancellation, the trace route
@@ -42,7 +46,11 @@ evidence/
     results.json   checks, expectations, observations, request ids
     summary.md     the same, rendered
 findings/
-  F01..          one file per confirmed finding: expected, observed, impact, fix
+  F01..F10       one file per confirmed finding: expected, observed, impact, fix
+  HYPOTHESES.md  the questions asked before the tests, and how each one resolved
+portal/
+  *.png          the public login and signup pages, captured 2026-11-25
+REVIEW.md        the one-page review this repo supports
 ```
 
 ## Running it
@@ -62,7 +70,9 @@ Suites are independent and can be run one at a time:
 | suite | what it costs | what it answers |
 |---|---|---|
 | `surface` | nothing | what answers without credentials; whether the model list matches the task models |
-| `contract` | usually nothing | validation boundaries, error shape, whether a list route exists |
+| `listing` | nothing | the undocumented list route; cursor semantics; which filters are real |
+| `inference` | a few cents | `/v1/responses` shape, the `indexes` header, streaming events, rate-limit headers |
+| `contract` | usually nothing | validation boundaries and error shape |
 | `idempotency` | ~6 tasks | what "same body" means; what a concurrent replay does |
 | `lifecycle` | ~4 tasks | transitions, cancellation at each state, the trace route |
 | `money` | ~3 tasks, one slow | do the cost fields agree; what the caps actually cap |
@@ -81,6 +91,26 @@ explicit `max_cost_usd`; the default is never used.
 The run's real spend is printed at the end and stored in `results.json`. If a probe
 finds that a limit is not enforced, it cancels the task it created and says so.
 
+The paid task runs spent **$0.0849**: 20 tasks across `core` and `deep`. The 5 inference
+calls added well under a cent. The two paid runs had a $2.00 ceiling each and finished at
+$0.0052 and $0.0797.
+
+## What this does not cover
+
+Stated up front, because a review that hides its edges is not useful:
+
+- **7-day file expiry.** Verifying `410 files_expired` needs a week. The `files_expire_at`
+  value is checked against `finished_at`; the expiry itself is not observed.
+- **The 20-queued-task ceiling.** Reachable, but it would occupy the account for the
+  length of the run and distort everything else. Left as a documented-only claim.
+- **Bring-your-own-key.** Needs a second vendor account. Not tested.
+- **Retrieval quality with a real index.** The inference probes use no index; they test the
+  request surface, not whether the retrieved passages are good. Judging retrieval needs a
+  corpus and a relevance standard, which is a different review.
+- **The logged-in Portal.** The public login and signup pages were captured; the dashboard,
+  project settings and usage views need a browser session, and I did not have one. The
+  Portal section of `REVIEW.md` says exactly what was and was not seen.
+
 ## Evidence format
 
 `wire.jsonl` is append-only, one JSON object per exchange:
@@ -94,15 +124,3 @@ finds that a limit is not enforced, it cancels the task it created and says so.
 `Authorization` is dropped and the project id and key are replaced with placeholders
 **before** the line is written. A secret that never reaches disk cannot leak through a
 forgotten `.gitignore`. `python -m mosslab.verify` re-checks the tracked tree anyway.
-
-## What this does not cover
-
-Stated up front, because a review that hides its edges is not useful:
-
-- **7-day file expiry.** Verifying `410 files_expired` needs a week. The `files_expire_at`
-  value is checked against `finished_at`; the expiry itself is not observed.
-- **The 20-queued-task ceiling.** Reachable, but it would occupy the account for the
-  length of the run and distort everything else. Left as a documented-only claim.
-- **Bring-your-own-key.** Needs a second vendor account. Not tested.
-- **Inference (`/v1/responses`) beyond what the Tasks path touches.** Reviewed from the
-  docs and SDK source, not exercised at volume.

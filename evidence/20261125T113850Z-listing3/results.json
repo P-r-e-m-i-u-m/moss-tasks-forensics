@@ -1,0 +1,204 @@
+{
+  "run": "20261125T113850Z-listing3",
+  "started_utc": "20261125T113850Z",
+  "finished_utc": "20261125T113857Z",
+  "gateway": "https://inference.moss.dev/v1",
+  "budget": {
+    "spent_usd": 0.0,
+    "tasks_created": 0,
+    "ceiling_usd": 3.0,
+    "task_ceiling": 40
+  },
+  "results": [
+    {
+      "id": "R",
+      "suite": "listing",
+      "title": "The undocumented list route",
+      "skipped": null,
+      "checks": [
+        {
+          "name": "list_route_exists",
+          "expected": "404, since the reference documents no list route",
+          "observed": "200, keys=['data', 'first_id', 'has_more', 'last_id', 'object', 'total']",
+          "passed": false,
+          "evidence": {
+            "status": 200,
+            "keys": [
+              "data",
+              "first_id",
+              "has_more",
+              "last_id",
+              "object",
+              "total"
+            ],
+            "request_id": "b4ad49ac387d40afbcd428bfe27fe2d6"
+          }
+        },
+        {
+          "name": "list_shape",
+          "expected": "object=\"list\" with data, first_id, last_id, has_more, total",
+          "observed": "['data', 'first_id', 'has_more', 'last_id', 'object', 'total']",
+          "passed": true,
+          "evidence": {
+            "body_keys": [
+              "data",
+              "first_id",
+              "has_more",
+              "last_id",
+              "object",
+              "total"
+            ],
+            "total": 18,
+            "request_id": "b4ad49ac387d40afbcd428bfe27fe2d6"
+          }
+        },
+        {
+          "name": "after_rejects_unknown_id",
+          "expected": "400",
+          "observed": "400 after must be the id of a task of this project",
+          "passed": true,
+          "evidence": {
+            "status": 400,
+            "request_id": "435965997142476fa8e2b58c60b5ad6e"
+          }
+        },
+        {
+          "name": "after_moves_forward",
+          "expected": "the next page, not the same one",
+          "observed": "first id task_29dfe1d4eef24caf9267dc79b55ec323 vs page-1 first task_cf17fc31c9684822ace8141d270b0906",
+          "passed": true,
+          "evidence": {
+            "first_id": "task_29dfe1d4eef24caf9267dc79b55ec323",
+            "request_id": "8b10c64e4fd04ac28c0c10dcc02160a7"
+          }
+        },
+        {
+          "name": "before_moves_backward",
+          "expected": "a page older than the cursor, or an empty one",
+          "observed": "5 row(s), identical_to_page1=True, has_more=True",
+          "passed": false,
+          "evidence": {
+            "returned": 5,
+            "identical_to_page1": true,
+            "has_more": true,
+            "request_id": "f7fa3adf12494b0ca2fecc4866e42179"
+          }
+        },
+        {
+          "name": "before_rejects_unknown_id",
+          "expected": "400, for the same reason as after",
+          "observed": "200 ",
+          "passed": false,
+          "evidence": {
+            "status": 200,
+            "request_id": "b0856b0eb9f6473c85d1df3956b3d78a"
+          }
+        },
+        {
+          "name": "status_completed",
+          "expected": "200 with a filtered total",
+          "observed": "200 total=14",
+          "passed": true,
+          "evidence": {
+            "status": 200,
+            "total": 14,
+            "request_id": "c18a8ce392d04da0a848895365c1446f"
+          }
+        },
+        {
+          "name": "status_failed",
+          "expected": "200 with a filtered total",
+          "observed": "200 total=1",
+          "passed": true,
+          "evidence": {
+            "status": 200,
+            "total": 1,
+            "request_id": "1f50809a3de24230823c3d266ca006df"
+          }
+        },
+        {
+          "name": "status_cancelled",
+          "expected": "200 with a filtered total",
+          "observed": "200 total=3",
+          "passed": true,
+          "evidence": {
+            "status": 200,
+            "total": 3,
+            "request_id": "2db94cd7bd994123b27bbfcaecfc1f57"
+          }
+        },
+        {
+          "name": "status_queued",
+          "expected": "200 with a filtered total",
+          "observed": "200 total=0",
+          "passed": true,
+          "evidence": {
+            "status": 200,
+            "total": 0,
+            "request_id": "4bba71f7a4394520a694a11c108f5273"
+          }
+        },
+        {
+          "name": "status_running",
+          "expected": "200 with a filtered total",
+          "observed": "200 total=0",
+          "passed": true,
+          "evidence": {
+            "status": 200,
+            "total": 0,
+            "request_id": "ca1a5563de604fee982d1033050e083e"
+          }
+        },
+        {
+          "name": "status_bogus",
+          "expected": "400",
+          "observed": "400 total=None",
+          "passed": true,
+          "evidence": {
+            "status": 400,
+            "total": null,
+            "request_id": "098b7812c4774ad6be34afeb6abb62fd"
+          }
+        },
+        {
+          "name": "status_total_consistent",
+          "expected": "the filtered totals sum to the unfiltered total",
+          "observed": "unfiltered=18",
+          "passed": true,
+          "evidence": {
+            "unfiltered_total": 18
+          }
+        },
+        {
+          "name": "filter_goal_ignored",
+          "expected": "rejected as an unknown parameter, or honoured",
+          "observed": "200 total=18 ignored=True",
+          "passed": false,
+          "evidence": {
+            "status": 200,
+            "total": 18,
+            "request_id": "93edfc139b3542ecace43a5dd2338cfb"
+          }
+        },
+        {
+          "name": "filter_metadata_ignored",
+          "expected": "rejected as an unknown parameter, or honoured",
+          "observed": "200 total=18 ignored=True",
+          "passed": false,
+          "evidence": {
+            "status": 200,
+            "total": 18,
+            "request_id": "034533af493e4f539be022d1fffc00bf"
+          }
+        }
+      ],
+      "notes": [
+        "`GET /v1/tasks` returns a paginated list. The reference documents create, get, cancel, files and file download — five routes. This is a sixth.",
+        "`before` is accepted, never validated, and returns page one unchanged while `has_more` stays true. A client paging backwards with it loops on the same page forever. `after` on the same route works and is validated, so this is one cursor implemented and one accepted.",
+        "`status` is a real filter with a real error message; `goal` and `metadata` are accepted and ignored, returning the whole project. Same route, two different attitudes to unknown input."
+      ],
+      "task_ids": []
+    }
+  ],
+  "errors": []
+}

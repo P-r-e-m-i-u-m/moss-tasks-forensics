@@ -1,0 +1,69 @@
+{
+  "at": "20261125T113658Z",
+  "tasks": {
+    "task_0a847b767dd24af18d8b2e8f637d0795": {
+      "cost_usd": 0.006454,
+      "model_usd": 0.006454,
+      "browser_usd": 0.0003333333333333333,
+      "traffic_usd": null,
+      "total_usd": 0.006787,
+      "status": "completed"
+    },
+    "task_13e3dfbedba947bc977226af2a337192": {
+      "cost_usd": 0.0,
+      "model_usd": 0.0,
+      "browser_usd": 0.0003333333333333333,
+      "traffic_usd": null,
+      "total_usd": 0.000333,
+      "status": "cancelled"
+    },
+    "task_36513f7d23514ba4ad3edfe823901f76": {
+      "cost_usd": 0.003579,
+      "model_usd": 0.003579,
+      "browser_usd": 0.0003333333333333333,
+      "traffic_usd": null,
+      "total_usd": 0.003912,
+      "status": "completed"
+    },
+    "task_37a995225f974e05b5e4b47b5fa66c91": {
+      "cost_usd": 0.00537,
+      "model_usd": 0.00537,
+      "browser_usd": 0.0003333333333333333,
+      "traffic_usd": null,
+      "total_usd": 0.005703,
+      "status": "completed"
+    },
+    "task_514689ce9fa848249b40a1a4b4f95cfb": {
+      "cost_usd": 0.0,
+      "model_usd": 0.0,
+      "browser_usd": 0.0003333333333333333,
+      "traffic_usd": null,
+      "total_usd": 0.000333,
+      "status": "cancelled"
+    },
+    "task_7a7f9355b51b496bac3755e61b27410c": {
+      "cost_usd": 0.0,
+      "model_usd": 0.0,
+      "browser_usd": 0.0003333333333333333,
+      "traffic_usd": null,
+      "total_usd": 0.000333,
+      "status": "cancelled"
+    },
+    "task_7ee1f8e32bd64e958252a043a7275941": {
+      "cost_usd": 0.003852,
+      "model_usd": 0.003852,
+      "browser_usd": 0.0003333333333333333,
+      "traffic_usd": null,
+      "total_usd": 0.004185,
+      "status": "completed"
+    },
+    "task_c506d2b1736e41b78fd5923c5e2a474e": {
+      "cost_usd": 0.004212,
+      "model_usd": 0.004212,
+      "browser_usd": 0.0003333333333333333,
+      "traffic_usd": null,
+      "total_usd": 0.004545,
+      "status": "completed"
+    }
+  }
+}

@@ -1,0 +1,185 @@
+{
+  "run": "20261125T113737Z-listing2",
+  "started_utc": "20261125T113737Z",
+  "finished_utc": "20261125T113746Z",
+  "gateway": "https://inference.moss.dev/v1",
+  "budget": {
+    "spent_usd": 0.0,
+    "tasks_created": 0,
+    "ceiling_usd": 3.0,
+    "task_ceiling": 40
+  },
+  "results": [
+    {
+      "id": "R",
+      "suite": "listing",
+      "title": "The undocumented list route",
+      "skipped": null,
+      "checks": [
+        {
+          "name": "list_route_exists",
+          "expected": "404, since the reference documents no list route",
+          "observed": "200, keys=['data', 'first_id', 'has_more', 'last_id', 'object', 'total']",
+          "passed": false,
+          "evidence": {
+            "status": 200,
+            "keys": [
+              "data",
+              "first_id",
+              "has_more",
+              "last_id",
+              "object",
+              "total"
+            ],
+            "request_id": "e231255727f44ead9fa25719dea95da6"
+          }
+        },
+        {
+          "name": "list_shape",
+          "expected": "object=\"list\" with data, first_id, last_id, has_more, total",
+          "observed": "['data', 'first_id', 'has_more', 'last_id', 'object', 'total']",
+          "passed": true,
+          "evidence": {
+            "body_keys": [
+              "data",
+              "first_id",
+              "has_more",
+              "last_id",
+              "object",
+              "total"
+            ],
+            "total": 18,
+            "request_id": "e231255727f44ead9fa25719dea95da6"
+          }
+        },
+        {
+          "name": "limit_1",
+          "expected": "200",
+          "observed": "200",
+          "passed": true,
+          "evidence": {
+            "status": 200,
+            "request_id": "c4b4c9acb04349bda4f2a48051552360"
+          }
+        },
+        {
+          "name": "limit_100",
+          "expected": "200",
+          "observed": "200",
+          "passed": true,
+          "evidence": {
+            "status": 200,
+            "request_id": "b7577b30cf0e4e26af00ad9a45a557db"
+          }
+        },
+        {
+          "name": "limit_0",
+          "expected": "400",
+          "observed": "400 invalid_request_error",
+          "passed": true,
+          "evidence": {
+            "status": 400,
+            "request_id": "49c8c56ab3324dcdabdde729731919dc"
+          }
+        },
+        {
+          "name": "limit_101",
+          "expected": "400",
+          "observed": "400 invalid_request_error",
+          "passed": true,
+          "evidence": {
+            "status": 400,
+            "request_id": "a27644a954c343908ace75bb929acf95"
+          }
+        },
+        {
+          "name": "limit_abc",
+          "expected": "400",
+          "observed": "400 invalid_request_error",
+          "passed": true,
+          "evidence": {
+            "status": 400,
+            "request_id": "0295198df7c74eea8f367acfbff1d6c9"
+          }
+        },
+        {
+          "name": "after_validated",
+          "expected": "400 for an id that is not a task of this project",
+          "observed": "400 after must be the id of a task of this project",
+          "passed": true,
+          "evidence": {
+            "status": 400,
+            "request_id": "74668e46e58f4162bcc904f8fa548b09"
+          }
+        },
+        {
+          "name": "before_validated",
+          "expected": "400, for the same reason as after",
+          "observed": "200 ",
+          "passed": false,
+          "evidence": {
+            "status": 200,
+            "request_id": "343a73011525435ab003c32e80cc7625"
+          }
+        },
+        {
+          "name": "filter_status",
+          "expected": "400 unknown parameter, or a filtered result",
+          "observed": "200 total=14",
+          "passed": true,
+          "evidence": {
+            "status": 200,
+            "total": 14,
+            "request_id": "1a1b390b1c844406aea93cc1f0a7b843"
+          }
+        },
+        {
+          "name": "filter_goal",
+          "expected": "400 unknown parameter, or a filtered result",
+          "observed": "200 total=18",
+          "passed": true,
+          "evidence": {
+            "status": 200,
+            "total": 18,
+            "request_id": "7bef2373ac724b13b092c35016c76b41"
+          }
+        },
+        {
+          "name": "filter_metadata",
+          "expected": "400 unknown parameter, or a filtered result",
+          "observed": "200 total=18",
+          "passed": true,
+          "evidence": {
+            "status": 200,
+            "total": 18,
+            "request_id": "f6c22b92f5494d5997f5c741d358e04e"
+          }
+        },
+        {
+          "name": "pagination_walk",
+          "expected": "walking by after returns distinct ids and agrees with total",
+          "observed": "walked=6 total=18 distinct=6",
+          "passed": true,
+          "evidence": {
+            "walked": [
+              "task_cf17fc31c9684822ace8141d270b0906",
+              "task_29dfe1d4eef24caf9267dc79b55ec323",
+              "task_2d8458a85f52427ba3bf5d2eeadb370b",
+              "task_17276736a27e43aab4490d462feeab40",
+              "task_29bf2dff03e04c49a867973835b79009",
+              "task_ae0ee2f66ccb403394e3cff17c2c425a"
+            ],
+            "total": 18
+          }
+        }
+      ],
+      "notes": [
+        "`GET /v1/tasks` returns a paginated list. The reference documents create, get, cancel, files and file download — five routes. This is a sixth.",
+        "`after` rejects an unknown task id; `before` accepts one and returns the first page. Two cursors on the same route, two different contracts.",
+        "Whether the list is scoped to this project cannot be proven with one project. The `after` error message says 'of this project', which is the only evidence either way."
+      ],
+      "task_ids": []
+    }
+  ],
+  "errors": []
+}

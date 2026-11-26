@@ -107,3 +107,23 @@ the gap; a `200` would be a documentation failure instead.
 (`inference.py:1838`), so a `409` is returned to the caller on the first attempt. No probe
 needed. This is listed so the negative result is visible: not every question I asked found a
 bug, and the ones that did not are not quietly dropped.
+
+## Results
+
+| # | outcome | where it went |
+|---|---|---|
+| H1 | **unresolved.** 14 minutes after the runs, `traffic_usd` was still `null` on all 18 tasks and no `total_usd` had changed. The docs say "a few hours", so this neither confirms nor falsifies settlement. | F06 |
+| H2 | **confirmed.** `cost_usd` is model-only; `total_usd` adds the browser charge. | F06 |
+| H3 | **falsified as written.** The output did not miss the schema: `"Not found"` is a valid string, so `passed` was `true`. The real finding is that `passed` is a shape check, not a correctness check. | F08 |
+| H4 | **confirmed, with a different shape than expected.** No undocumented code appeared; the tasks ended `completed` with `error: null`. | F09 |
+| H5 | **confirmed.** A $0.02 cap produced $0.021088 of model spend, `completed`, no `budget_exceeded`. | F07 |
+| H6 | **falsified.** Reordered keys deduplicated to the same task id. Equality is computed on JSON semantics, not raw bytes. | — |
+| H7 | **falsified.** Two concurrent creates with one key produced one task id. The check-then-insert is atomic enough. | — |
+| H8 | **falsified.** `indexes` in the body is not ignored: it returns `400 unsupported_parameter` and tells the caller to use the header. | F10 |
+| H9 | **falsified.** `GET /v1/tasks` exists and is paginated. It is a documentation gap, not a missing route. | F05 |
+| H10 | **resolved from source.** A `409` is returned to the caller, not retried. | — |
+
+The three clean falsifications (H6, H7, H8) are the parts of the API that held up best under
+adversarial testing. H3 and H9 also failed as written, but each produced a finding rather than
+a clean pass, so they are counted separately. All five are recorded here for the same reason
+as the findings: a review that only lists defects is not measuring anything.

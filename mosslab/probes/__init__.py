@@ -21,7 +21,9 @@ from . import (  # noqa: E402
     failures,
     files,
     idempotency,
+    inference,
     lifecycle,
+    listing,
     money,
     schema,
     sdk,
@@ -30,6 +32,8 @@ from . import (  # noqa: E402
 
 SUITES: dict[str, list[Probe]] = {
     "surface": [Probe("P", "Unauthenticated surface", surface.run)],
+    "listing": [Probe("R", "The undocumented list route", listing.run)],
+    "inference": [Probe("N", "Inference path and the indexes header", inference.run)],
     "contract": [Probe("C", "Request validation and error shape", contract.run)],
     "idempotency": [Probe("I", "Idempotency-Key semantics", idempotency.run)],
     "lifecycle": [Probe("L", "Task state machine and cancellation", lifecycle.run)],
