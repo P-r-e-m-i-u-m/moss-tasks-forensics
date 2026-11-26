@@ -1,36 +1,38 @@
 # Moss Inference: Portal, Inference API, Tasks API
 
-I ran 20 browser tasks and 5 inference calls against Moss, spending about $0.085. Code, logs
-and screenshots are in this repo; every confirmed finding carries an `X-Moss-Request-Id` Moss
-can look up. The primitives are solid; the contract around them drifts.
+I spent $0.085 and ran 20 browser tasks to find out how far Moss's documented contract
+holds. The primitives are good. The edges are where it drifts.
+
+Code, logs and screenshots are in this repo, and every confirmed finding carries an
+`X-Moss-Request-Id` Moss can look up on their side.
 
 ## Portal
 
-**Liked.** Auth is fast and clear: GitHub, Google or email, no card, and the semantic-search
+**Good.** Auth is fast and clear: GitHub, Google or email, no card, and the semantic-search
 pitch is on the page.
 
-**Didn't like.** Signup sells semantic search while the link carries `?next=%2Finference`.
-Nothing explains how Inference and Tasks relate, and there is no code sample.
+**Weak.** Signup sells semantic search while the link carries `?next=%2Finference`. Nothing
+explains how Inference and Tasks relate, and there is no code sample.
 
-**Would change.** Route the referral to the product it names, add a curl example and a
-search-vs-task fork, and show the credit balance before the first call.
+**Fix.** Route the referral to the product it names, add a curl example and a search-vs-task
+fork, and show the credit balance before the first call.
 
 **Tested.** Public login and signup only (`portal/`); the dashboard, settings, keys and usage
 views need a session I did not have.
 
 ## Inference API
 
-**Liked.** `/v1/responses` is OpenAI-shaped: `object`, `output[]`, token usage,
+**Good.** `/v1/responses` is OpenAI-shaped: `object`, `output[]`, token usage,
 `response.output_text.delta` streaming. Unknown models get `400 model_not_found` naming
 `moss/fastlane-1`. Body `indexes` gets a precise `400 unsupported_parameter`.
 
-**Didn't like.** A mistyped `X-Moss-Indexes` returns `403 permission_error` ("outside this
+**Weak.** A mistyped `X-Moss-Indexes` returns `403 permission_error` ("outside this
 project"), not `404`, so a typo sends you to check credentials. `/v1/models` is public, lists
 19 models, and none are accepted by the Tasks API. `/health` is public and exposes the
 deployed commit, tenant count and live trace counters.
 
-**Would change.** 404 for an unknown index; auth on `/models`; a `capabilities` field
-separating task from inference models; `/health` reduced to `{"status":"ok"}`.
+**Fix.** 404 for an unknown index; auth on `/models`; a `capabilities` field separating task
+from inference models; `/health` reduced to `{"status":"ok"}`.
 
 **Tested.** 5 calls at `moss/fastlane-1`: response shape, usage, rate-limit headers, body vs
 header `indexes`, unknown model, SSE. No index was created, so retrieval quality is not
@@ -38,15 +40,15 @@ assessed.
 
 ## Tasks API
 
-**Liked.** Idempotency is the strongest part: replays return `Idempotent-Replayed: true`,
+**Good.** Idempotency is the strongest part: replays return `Idempotent-Replayed: true`,
 reordered keys dedupe, concurrent creates with one key produce one task, 255-character keys
 work and 256 is a clean `400`. Cancellation and files are correct, including nested paths and
 traversal refusal. `max_runtime_seconds` is a real stop (`failed`, `time_limit`, "Stopped
 after 60 s"). The trace and video routes are the best debugging surface in the product and
 both are undocumented: timeline, screenshots, and an mp4 of the session.
 
-**Didn't like.** `GET /v1/tasks` exists, paginates and is undocumented; `before` is accepted
-but ignored, returning page one with `has_more: true`, so backward pagination loops forever.
+**Weak.** `GET /v1/tasks` exists, paginates and is undocumented; `before` is accepted but
+ignored, returning page one with `has_more: true`, so backward pagination loops forever.
 `cost_usd` is model-only while `total_usd` adds the browser charge (8.9% apart on a
 12-second task), and `traffic_usd` is null at completion with no settlement flag. A $0.02
 `max_cost_usd` produced $0.021088 of model spend, completed, and never emitted
@@ -55,8 +57,8 @@ but ignored, returning page one with `has_more: true`, so backward pagination lo
 impossible company all ended `completed`; `no_answer` never fired. Polling is a flat
 2-second loop: four concurrent tasks use the entire 120 req/min sustained limit.
 
-**Would change.** Document the list route and fix or reject `before`; make `cost_usd` the
-total; enforce the budget cap; return `no_answer` when the agent could not answer; document
+**Fix.** Document the list route and fix or reject `before`; make `cost_usd` the total;
+enforce the budget cap; return `no_answer` when the agent could not answer; document
 `/trace` and `/video`; back off on the rate-limit headers.
 
 **Tested.** 20 tasks across the seven paid suites: idempotency (including a concurrent race),
